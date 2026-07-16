@@ -1,6 +1,231 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trail Ranker — Saturday hikes by bus from Grenoble</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F6F1; --ink:#1E2A2B; --muted:#6B7473;
+  --chartreuse:#4A7C59; --vercors:#2C5F8A; --belledonne:#5A5F6E;
+  --ok:#4A7C59; --warn:#C97B2D; --bad:#B4453A;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',sans-serif;background:var(--paper);color:var(--ink);line-height:1.45;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(30,42,43,.03) 40px),
+                   repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(30,42,43,.03) 40px);}
+header{padding:28px 20px 14px;max-width:980px;margin:0 auto}
+h1{font-family:'Barlow Condensed';font-weight:700;font-size:clamp(2rem,5vw,3rem);letter-spacing:.01em;text-transform:uppercase}
+h1 .accent{color:var(--vercors)}
+.sub{color:var(--muted);font-size:.95rem;margin-top:2px}
+.validity{display:inline-block;margin-top:10px;font-size:.8rem;background:var(--ink);color:var(--paper);
+  padding:4px 10px;border-radius:3px;font-family:'Barlow Condensed';letter-spacing:.04em}
+.validity.stale{background:var(--bad)}
+.filters{max-width:980px;margin:14px auto 6px;padding:0 20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters label{font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:20px;padding:5px 14px;cursor:pointer;
+  font-family:'Barlow Condensed';font-weight:600;font-size:.9rem;letter-spacing:.03em;transition:all .15s}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+select{border:1.5px solid var(--line);border-radius:6px;padding:5px 8px;font-family:'Barlow',sans-serif;background:var(--card)}
+.check{display:flex;align-items:center;gap:5px;font-size:.88rem;cursor:pointer;user-select:none}
+main{max-width:980px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:16px}
+@media(max-width:520px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;
+  border-top:4px solid var(--massif,var(--ink));transition:box-shadow .15s}
+.card:hover{box-shadow:0 3px 14px rgba(30,42,43,.09)}
+.card.done{opacity:.72}
+.card.done .tname::after{content:" ✓";color:var(--ok)}
+.card.cut{opacity:.5;border-style:dashed}
+.toprow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.tname{font-family:'Barlow Condensed';font-weight:700;font-size:1.35rem;line-height:1.1}
+.massif-tag{font-family:'Barlow Condensed';font-weight:600;font-size:.78rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--massif)}
+.lozenge{flex-shrink:0;font-family:'Barlow Condensed';font-weight:700;font-size:1rem;background:var(--ink);
+  color:#fff;border-radius:6px;padding:3px 10px;letter-spacing:.02em}
+.stats{display:flex;gap:14px;margin:10px 0 4px;flex-wrap:wrap}
+.stat{font-size:.9rem}.stat b{font-family:'Barlow Condensed';font-size:1.05rem;font-weight:700}
+.stat span{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;display:block}
+.daybar-wrap{margin:12px 0 4px}
+.daybar-label{display:flex;justify-content:space-between;font-family:'Barlow Condensed';font-weight:600;
+  font-size:.8rem;color:var(--muted);letter-spacing:.03em}
+.daybar{height:16px;background:var(--paper);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;margin-top:3px}
+.seg{height:100%}
+.seg.walk{background:repeating-linear-gradient(45deg,#B8B4A6,#B8B4A6 4px,#D6D3C7 4px,#D6D3C7 8px)}
+.seg.hike{background:var(--massif,var(--ink))}
+.seg.slack{background:transparent}
+.buffer{font-family:'Barlow Condensed';font-weight:700;font-size:.95rem;margin-top:4px}
+.buffer.ok{color:var(--ok)}.buffer.warn{color:var(--warn)}.buffer.bad{color:var(--bad)}
+.busline{font-size:.85rem;color:var(--muted);margin-top:6px}
+.busline b{color:var(--ink)}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.badge{font-family:'Barlow Condensed';font-weight:600;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;
+  border-radius:4px;padding:3px 8px;border:1px solid var(--line);color:var(--muted)}
+.badge.resa{background:#FBEEDD;border-color:#E8CBA4;color:#8A5A1E}
+.badge a{color:inherit}
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.gpx{font-size:.85rem;color:var(--vercors);text-decoration:none;font-weight:500}
+.gpx:hover{text-decoration:underline}
+.donebtn{font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;
+  border:1.5px solid var(--line);background:none;border-radius:6px;padding:5px 12px;cursor:pointer;color:var(--muted)}
+.donebtn.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.cutnote{font-size:.82rem;color:var(--bad);font-weight:500;margin-top:8px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+footer{max-width:980px;margin:0 auto;padding:0 20px 30px;font-size:.78rem;color:var(--muted)}
+.chip:focus-visible,.donebtn:focus-visible,select:focus-visible{outline:2px solid var(--vercors);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
 <body>
-<h1>Trail Ranker — coming soon 🥾🚌</h1>
+<header>
+  <h1>Trail <span class="accent">Ranker</span></h1>
+  <div class="sub">Saturday day hikes from Grenoble — no car, just the bus.</div>
+  <div class="validity" id="validity"></div>
+</header>
+
+<div class="filters" id="filters">
+  <label>Massif</label>
+  <button class="chip on" data-massif="all">All</button>
+  <button class="chip" data-massif="Chartreuse">Chartreuse</button>
+  <button class="chip" data-massif="Vercors">Vercors</button>
+  <button class="chip" data-massif="Belledonne">Belledonne</button>
+  <label>Max duration</label>
+  <select id="maxdur">
+    <option value="99">Any</option><option value="3">≤ 3 h</option>
+    <option value="5">≤ 5 h</option><option value="7">≤ 7 h</option>
+  </select>
+  <label class="check"><input type="checkbox" id="feasonly" checked> Feasible only (buffer ≥ 1 h)</label>
+  <label class="check"><input type="checkbox" id="showcut"> Show cut trails</label>
+</div>
+
+<main id="grid"></main>
+<footer>Buffer = Saturday bus window at trailhead stop − hike duration − approach walk (both ways, 4.5 km/h). Times from official fiches horaires; always re-check before travelling. Data: trails.json in this repo.</footer>
+
+<script>
+const MASSIF_COLOR = {Chartreuse:'var(--chartreuse)', Vercors:'var(--vercors)', Belledonne:'var(--belledonne)'};
+const doneKey = 'trailranker_done';
+const getDone = () => { try { return JSON.parse(localStorage.getItem(doneKey)) || {}; } catch(e){ return {}; } };
+const setDone = d => { try { localStorage.setItem(doneKey, JSON.stringify(d)); } catch(e){} };
+
+let DATA = null;
+let state = {massif:'all', maxdur:99, feasonly:true, showcut:false};
+
+fetch('trails.json').then(r => {
+  if(!r.ok) throw new Error('trails.json not found ('+r.status+')');
+  return r.json();
+}).then(d => { DATA = d; initValidity(d); render(); })
+.catch(e => {
+  document.getElementById('grid').innerHTML =
+    '<div class="empty">Could not load trails.json — check that it sits next to index.html in the repo.<br>'+e.message+'</div>';
+});
+
+function initValidity(d){
+  const el = document.getElementById('validity');
+  const v = d.meta && d.meta.schedule_validity ? d.meta.schedule_validity : 'schedule validity unknown';
+  el.textContent = 'Schedules: ' + v;
+  // crude staleness check: find last yyyy-mm-dd in the string
+  const m = v.match(/\d{4}-\d{2}-\d{2}/g);
+  if(m){
+    const latest = m.sort().pop();
+    if(new Date() > new Date(latest + 'T23:59:59')) {
+      el.classList.add('stale');
+      el.textContent = '⚠ Schedules expired (' + v + ') — re-verify before travelling';
+    }
+  }
+}
+
+function fmtH(h){
+  const hh = Math.floor(h), mm = Math.round((h-hh)*60);
+  return mm ? hh+'h'+String(mm).padStart(2,'0') : hh+'h';
+}
+
+function card(t){
+  const done = getDone()[t.id];
+  const isCut = t.status === 'cut_v1';
+  const color = MASSIF_COLOR[t.massif] || 'var(--ink)';
+  const buf = typeof t.feasibility_buffer_h === 'number' ? t.feasibility_buffer_h : null;
+  const bufClass = buf === null ? '' : buf >= 2 ? 'ok' : buf >= 1 ? 'warn' : 'bad';
+  const approachH = 2 * (t.approach_km||0) / 4.5;
+  // day bar proportions
+  let bar = '';
+  if(buf !== null){
+    const windowH = t.duration_h + approachH + buf;
+    const pct = x => (100*x/windowH).toFixed(1)+'%';
+    const outM = (t.first_saturday_bus_out.match(/arr\.[^)]*?(\d{2}:\d{2})/)||[])[1] || '';
+    const backM = (t.last_saturday_bus_back.match(/(\d{2}:\d{2})/)||[])[1] || '';
+    bar = `<div class="daybar-wrap">
+      <div class="daybar-label"><span>arrive ${outM}</span><span>window ${fmtH(windowH)}</span><span>last bus ${backM}</span></div>
+      <div class="daybar" title="hatched = approach walk, solid = hike, empty = slack">
+        <div class="seg walk" style="width:${pct(approachH/2)}"></div>
+        <div class="seg hike" style="width:${pct(t.duration_h)}"></div>
+        <div class="seg walk" style="width:${pct(approachH/2)}"></div>
+        <div class="seg slack" style="width:${pct(buf)}"></div>
+      </div>
+      <div class="buffer ${bufClass}">${buf >= 1 ? '' : '⚠ '}buffer ${fmtH(Math.max(buf,0))}${buf < 1 ? ' — tight, expert pace only' : ''}</div>
+    </div>`;
+  }
+  const resa = t.reservation === true || t.reservation === 'CONDITIONAL (Flexo)';
+  return `<article class="card ${done?'done':''} ${isCut?'cut':''}" style="--massif:${color}">
+    <div class="toprow">
+      <div>
+        <div class="massif-tag">${t.massif}</div>
+        <div class="tname">${t.name}</div>
+      </div>
+      <div class="lozenge">${(t.bus_line||'?').split(' ')[0].replace('TO_VERIFY','—')}</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${t.distance_km} km</b><span>distance</span></div>
+      <div class="stat"><b>${t.d_plus_m} m</b><span>D+</span></div>
+      <div class="stat"><b>${fmtH(t.duration_h)}</b><span>duration</span></div>
+      <div class="stat"><b>${t.approach_km} km</b><span>stop→trail</span></div>
+      <div class="stat"><b>${t.difficulty}</b><span>grade</span></div>
+    </div>
+    ${isCut ? `<div class="cutnote">Cut from v1 — ${t.reason||''}</div>` : bar}
+    <div class="busline">From <b>${t.stop}</b> · first bus ${t.first_saturday_bus_out||'—'} · last back ${t.last_saturday_bus_back||'—'}</div>
+    <div class="badges">
+      <span class="badge">${t.fare_info||'fare —'}</span>
+      ${resa ? `<span class="badge resa">Reservation ${t.booking_url?`· <a href="${t.booking_url}" target="_blank" rel="noopener">book</a>`:''}</span>` : ''}
+    </div>
+    <div class="actions">
+      <a class="gpx" href="${t.gpx_osm}" target="_blank" rel="noopener">Route on OSM →</a>
+      <button class="donebtn ${done?'on':''}" data-id="${t.id}">${done?'Done it':'Mark done'}</button>
+    </div>
+  </article>`;
+}
+
+function render(){
+  if(!DATA) return;
+  const g = document.getElementById('grid');
+  let list = DATA.trails.filter(t => {
+    if(t.status === 'cut_v1' && !state.showcut) return false;
+    if(String(t.bus_line).startsWith('TO_VERIFY') && !state.showcut) return false;
+    if(state.massif !== 'all' && t.massif !== state.massif) return false;
+    if(t.duration_h > state.maxdur) return false;
+    if(state.feasonly && t.status !== 'cut_v1' && typeof t.feasibility_buffer_h === 'number' && t.feasibility_buffer_h < 1) return false;
+    return true;
+  });
+  // rank: biggest buffer first, cut/unverified last
+  list.sort((a,b) => {
+    const ba = typeof a.feasibility_buffer_h==='number' ? a.feasibility_buffer_h : -99;
+    const bb = typeof b.feasibility_buffer_h==='number' ? b.feasibility_buffer_h : -99;
+    return bb - ba;
+  });
+  g.innerHTML = list.length ? list.map(card).join('') : '<div class="empty">No trails match — loosen a filter.</div>';
+  g.querySelectorAll('.donebtn').forEach(b => b.addEventListener('click', () => {
+    const d = getDone(); d[b.dataset.id] = !d[b.dataset.id]; if(!d[b.dataset.id]) delete d[b.dataset.id];
+    setDone(d); render();
+  }));
+}
+
+document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+  document.querySelectorAll('.chip').forEach(x => x.classList.remove('on'));
+  c.classList.add('on'); state.massif = c.dataset.massif; render();
+}));
+document.getElementById('maxdur').addEventListener('change', e => { state.maxdur = +e.target.value; render(); });
+document.getElementById('feasonly').addEventListener('change', e => { state.feasonly = e.target.checked; render(); });
+document.getElementById('showcut').addEventListener('change', e => { state.showcut = e.target.checked; render(); });
+</script>
 </body>
 </html>
