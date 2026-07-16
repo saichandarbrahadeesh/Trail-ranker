@@ -1,20 +1,24 @@
 {
   "meta": {
-    "version": "0.1-draft",
+    "version": "1.0-validated",
     "generated": "2026-07-16",
     "scope": "Bus-accessible day hikes from Grenoble, Saturday schedules",
-    "schedule_status": "DRAFT — Saturday times below are from latest official fiches horaires and secondary sources, NOT parsed from GTFS in this session. Validate each *_bus field against SMMAG (reso-m.fr) and Cars Région AuRA GTFS on transport.data.gouv.fr before use.",
+    "schedule_status": "Validated from official fiches horaires (uploaded PDFs): N62 (from 2025-09-01, samedi/DF column), T40 + T64/T65 (06 Jul–31 Aug 2026), N93 (04 Jul–30 Aug 2026).",
     "sources": {
       "trails": "OSM/Overpass (relation IDs to be filled), Visorando/IGN cross-ref",
       "schedules": "reso-m.fr fiches horaires (N62, T40, T64, T65), transisere/carsisere (N93), tougo.fr (Grésivaudan)",
-      "cross_check": ["https://rando-sans-voiture.fr", "https://www.changerdapproche.org"]
+      "cross_check": [
+        "https://rando-sans-voiture.fr",
+        "https://www.changerdapproche.org"
+      ]
     },
     "fares": {
       "M_reso_urban": "N62/T64/T65 within M réso zone: standard M réso ticket (~2.10€) / abonnement valid",
       "T40": "M réso réso+ / Cars Région tariff to St-Pierre-de-Chartreuse — VERIFY zone",
       "N93_chamrousse": "~12€ AR, reservation via Bus et Clic recommended",
       "tougo": "TouGo/M réso ticket, Flexo lines require booking"
-    }
+    },
+    "schedule_validity": "summer 2026 (until 2026-08-30 for N93; T40/T64/T65 fiches until 2026-08-31)"
   },
   "trails": [
     {
@@ -28,15 +32,19 @@
       "d_plus_m": 730,
       "difficulty": "T2/T3 (câble sous le sommet)",
       "duration_h": 4.0,
-      "first_saturday_bus_out": "TO_VERIFY (~08:15 Notre-Dame Musée, weekend-only extension to Col de Porte)",
-      "last_saturday_bus_back": "TO_VERIFY (~17:30-18:00 from Col de Porte)",
-      "feasibility_buffer_h": "TO_COMPUTE (bus window minus duration)",
+      "first_saturday_bus_out": "08:15 Grenoble Notre-Dame–Musée (arr. Sappey 08:39, Col de Porte 08:50); then hourly-ish 09:30–17:30",
+      "last_saturday_bus_back": "18:15 from Col de Porte (arr. Grenoble 18:45)",
+      "feasibility_buffer_h": 5.3,
       "fare_info": "M réso ticket",
       "reservation": true,
       "reservation_note": "Col de Porte extension weekend-only, reservation recommended",
       "booking_url": "https://www.reso-m.fr",
       "gpx_osm": "https://www.openstreetmap.org/search?query=Chamechaude",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "feasibility_note": "bus window 9.4h at trailhead stop"
     },
     {
       "id": "charmant-som-col-de-porte",
@@ -49,14 +57,18 @@
       "d_plus_m": 650,
       "difficulty": "T2",
       "duration_h": 4.5,
-      "first_saturday_bus_out": "TO_VERIFY (same as Chamechaude)",
-      "last_saturday_bus_back": "TO_VERIFY",
-      "feasibility_buffer_h": "TO_COMPUTE",
+      "first_saturday_bus_out": "08:15 Grenoble Notre-Dame–Musée (arr. Sappey 08:39, Col de Porte 08:50); then hourly-ish 09:30–17:30",
+      "last_saturday_bus_back": "18:15 from Col de Porte (arr. Grenoble 18:45)",
+      "feasibility_buffer_h": 4.8,
       "fare_info": "M réso ticket",
       "reservation": true,
       "booking_url": "https://www.reso-m.fr",
       "gpx_osm": "https://www.openstreetmap.org/search?query=Charmant%20Som",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "feasibility_note": "bus window 9.4h at trailhead stop"
     },
     {
       "id": "emeindras-sappey",
@@ -69,14 +81,18 @@
       "d_plus_m": 500,
       "difficulty": "T1/T2",
       "duration_h": 3.5,
-      "first_saturday_bus_out": "TO_VERIFY (~08:39 per fiche horaire pattern, hourly-ish)",
-      "last_saturday_bus_back": "TO_VERIFY (~17:54 from Sappey Place per fiche)",
-      "feasibility_buffer_h": "TO_COMPUTE",
+      "first_saturday_bus_out": "08:15 Grenoble Notre-Dame–Musée (arr. Sappey 08:39, Col de Porte 08:50); then hourly-ish 09:30–17:30",
+      "last_saturday_bus_back": "18:24 from Sappey Place (arr. Grenoble 18:45)",
+      "feasibility_buffer_h": 6.0,
       "fare_info": "M réso ticket",
       "reservation": false,
       "booking_url": null,
       "gpx_osm": "https://www.openstreetmap.org/search?query=Emeindras",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "feasibility_note": "bus window 9.8h at trailhead stop"
     },
     {
       "id": "dent-de-crolles-st-pierre",
@@ -96,7 +112,12 @@
       "reservation": false,
       "booking_url": null,
       "gpx_osm": "https://www.openstreetmap.org/search?query=Dent%20de%20Crolles",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "status": "cut_v1",
+      "reason": "last Saturday return 12:55"
     },
     {
       "id": "grand-som-st-pierre",
@@ -116,7 +137,12 @@
       "reservation": false,
       "booking_url": null,
       "gpx_osm": "https://www.openstreetmap.org/search?query=Grand%20Som",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "status": "cut_v1",
+      "reason": "last Saturday return 12:55"
     },
     {
       "id": "moucherotte-st-nizier",
@@ -129,14 +155,18 @@
       "d_plus_m": 800,
       "difficulty": "T2",
       "duration_h": 4.5,
-      "first_saturday_bus_out": "TO_VERIFY (T65 Saturday service exists, sparse)",
-      "last_saturday_bus_back": "TO_VERIFY",
-      "feasibility_buffer_h": "TO_COMPUTE",
+      "first_saturday_bus_out": "07:25 Grenoble Gare Routière (arr. St-Nizier Le Village 08:04); then 09:55, 12:15",
+      "last_saturday_bus_back": "18:23 from St-Nizier Le Village (arr. Grenoble 18:59)",
+      "feasibility_buffer_h": 5.6,
       "fare_info": "M réso ticket",
       "reservation": false,
       "booking_url": null,
       "gpx_osm": "https://www.openstreetmap.org/search?query=Le%20Moucherotte",
-      "cross_check": {"rando_sans_voiture": "LIKELY_LISTED", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "LIKELY_LISTED",
+        "changerdapproche": "TO_CHECK"
+      },
+      "feasibility_note": "bus window 10.3h at trailhead stop"
     },
     {
       "id": "pic-st-michel-lans",
@@ -149,14 +179,18 @@
       "d_plus_m": 900,
       "difficulty": "T2",
       "duration_h": 5.5,
-      "first_saturday_bus_out": "TO_VERIFY (T64 has decent Saturday frequency)",
-      "last_saturday_bus_back": "TO_VERIFY",
-      "feasibility_buffer_h": "TO_COMPUTE",
+      "first_saturday_bus_out": "07:40 Grenoble Gare Routière (arr. Lans OT 08:23, Villard GR 08:40); then 10:30, 12:30, 14:20",
+      "last_saturday_bus_back": "19:00 from Lans Office de Tourisme (arr. Grenoble 19:39)",
+      "feasibility_buffer_h": 4.0,
       "fare_info": "M réso ticket",
       "reservation": false,
       "booking_url": null,
       "gpx_osm": "https://www.openstreetmap.org/search?query=Pic%20Saint-Michel",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "feasibility_note": "bus window 10.6h at trailhead stop"
     },
     {
       "id": "grande-moucherolle-villard",
@@ -169,55 +203,67 @@
       "d_plus_m": 1250,
       "difficulty": "T3",
       "duration_h": 7.5,
-      "first_saturday_bus_out": "TO_VERIFY",
-      "last_saturday_bus_back": "TO_VERIFY",
-      "feasibility_buffer_h": "TO_COMPUTE — long approach from village, check summer navette",
+      "first_saturday_bus_out": "07:40 Grenoble Gare Routière (arr. Lans OT 08:23, Villard GR 08:40); then 10:30, 12:30, 14:20",
+      "last_saturday_bus_back": "18:45 from Villard Gare Routière (arr. Grenoble 19:39)",
+      "feasibility_buffer_h": 0.6,
       "fare_info": "M réso ticket",
       "reservation": false,
       "booking_url": null,
       "gpx_osm": "https://www.openstreetmap.org/search?query=Grande%20Moucherolle",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "feasibility_note": "bus window 10.1h at trailhead stop"
     },
     {
       "id": "croix-chamrousse-lacs-robert",
       "name": "Croix de Chamrousse + Lacs Robert (boucle)",
       "massif": "Belledonne",
       "bus_line": "N93",
-      "stop": "Chamrousse 1750 (Roche Béranger) / 1650",
+      "stop": "Chamrousse 1750 Roche Béranger",
       "approach_km": 0.3,
       "distance_km": 10.0,
       "d_plus_m": 650,
       "difficulty": "T2",
       "duration_h": 4.5,
-      "first_saturday_bus_out": "TO_VERIFY (N93 seasonal, summer Saturdays)",
-      "last_saturday_bus_back": "TO_VERIFY",
-      "feasibility_buffer_h": "TO_COMPUTE",
-      "fare_info": "~12€ AR",
+      "first_saturday_bus_out": "08:00 Grenoble Gare Routière (arr. 1650 Recoin 09:05, 1750 Roche Béranger 09:10); then 09:00, 11:45, 13:45, 15:45, 16:45",
+      "last_saturday_bus_back": "18:25 from Chamrousse 1750 Roche Béranger (arr. Grenoble 19:35)",
+      "feasibility_buffer_h": 4.6,
+      "fare_info": "12€ AR reserved online; 10€ per single cash on board",
       "reservation": true,
       "reservation_note": "Reservation via Bus et Clic",
       "booking_url": "https://busetclic.auvergnerhonealpes.fr",
       "gpx_osm": "https://www.openstreetmap.org/search?query=Croix%20de%20Chamrousse",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "feasibility_note": "bus window 9.2h at trailhead stop"
     },
     {
       "id": "lac-achard-chamrousse",
       "name": "Lac Achard depuis Chamrousse 1650",
       "massif": "Belledonne",
       "bus_line": "N93",
-      "stop": "Chamrousse 1650 (Recoin)",
+      "stop": "Chamrousse 1650 Le Recoin",
       "approach_km": 0.2,
       "distance_km": 6.5,
       "d_plus_m": 350,
       "difficulty": "T1",
       "duration_h": 2.5,
-      "first_saturday_bus_out": "TO_VERIFY",
-      "last_saturday_bus_back": "TO_VERIFY",
-      "feasibility_buffer_h": "TO_COMPUTE — comfortable, good fallback hike",
-      "fare_info": "~12€ AR",
+      "first_saturday_bus_out": "08:00 Grenoble Gare Routière (arr. 1650 Recoin 09:05, 1750 Roche Béranger 09:10); then 09:00, 11:45, 13:45, 15:45, 16:45",
+      "last_saturday_bus_back": "18:30 from Chamrousse 1650 Le Recoin (arr. Grenoble 19:35)",
+      "feasibility_buffer_h": 6.8,
+      "fare_info": "12€ AR reserved online; 10€ per single cash on board",
       "reservation": true,
       "booking_url": "https://busetclic.auvergnerhonealpes.fr",
       "gpx_osm": "https://www.openstreetmap.org/search?query=Lac%20Achard",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      },
+      "feasibility_note": "bus window 9.4h at trailhead stop"
     },
     {
       "id": "lac-crozet-freydieres",
@@ -238,7 +284,10 @@
       "reservation": "CONDITIONAL (Flexo)",
       "booking_url": "https://www.tougo.fr",
       "gpx_osm": "https://www.openstreetmap.org/search?query=Lac%20du%20Crozet",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      }
     },
     {
       "id": "grand-colon-freydieres",
@@ -258,7 +307,10 @@
       "reservation": "CONDITIONAL (Flexo)",
       "booking_url": "https://www.tougo.fr",
       "gpx_osm": "https://www.openstreetmap.org/search?query=Grand%20Colon",
-      "cross_check": {"rando_sans_voiture": "TO_CHECK", "changerdapproche": "TO_CHECK"}
+      "cross_check": {
+        "rando_sans_voiture": "TO_CHECK",
+        "changerdapproche": "TO_CHECK"
+      }
     }
   ]
 }
