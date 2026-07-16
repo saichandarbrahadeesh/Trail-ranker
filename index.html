@@ -81,11 +81,17 @@ footer{max-width:980px;margin:0 auto;padding:0 20px 30px;font-size:.78rem;color:
 <body>
 <header>
   <h1>Trail <span class="accent">Ranker</span></h1>
-  <div class="sub">Saturday day hikes from Grenoble — no car, just the bus.</div>
+  <div class="sub">Day hikes from Grenoble — no car, just the bus.</div>
   <div class="validity" id="validity"></div>
 </header>
 
 <div class="filters" id="filters">
+  <label>Day</label>
+  <select id="daytype">
+    <option value="saturday">Saturday</option>
+    <option value="sunday">Sunday / holiday</option>
+    <option value="weekday">Weekday (summer)</option>
+  </select>
   <label>Massif</label>
   <button class="chip on" data-massif="all">All</button>
   <button class="chip" data-massif="Chartreuse">Chartreuse</button>
@@ -101,7 +107,7 @@ footer{max-width:980px;margin:0 auto;padding:0 20px 30px;font-size:.78rem;color:
 </div>
 
 <main id="grid"></main>
-<footer>Buffer = Saturday bus window at trailhead stop − hike duration − approach walk (both ways, 4.5 km/h). Times from official fiches horaires; always re-check before travelling. Data: trails.json in this repo.</footer>
+<footer>Buffer = bus window for the selected day at trailhead stop − hike duration − approach walk (both ways, 4.5 km/h). Times from official fiches horaires; always re-check before travelling. Data: trails.json in this repo.</footer>
 
 <script>
 const MASSIF_COLOR = {Chartreuse:'var(--chartreuse)', Vercors:'var(--vercors)', Belledonne:'var(--belledonne)'};
@@ -110,7 +116,7 @@ const getDone = () => { try { return JSON.parse(localStorage.getItem(doneKey)) |
 const setDone = d => { try { localStorage.setItem(doneKey, JSON.stringify(d)); } catch(e){} };
 
 let DATA = null;
-let state = {massif:'all', maxdur:99, feasonly:true, showcut:false};
+let state = {day:'saturday', massif:'all', maxdur:99, feasonly:true, showcut:false};
 
 fetch('trails.json').then(r => {
   if(!r.ok) throw new Error('trails.json not found ('+r.status+')');
@@ -123,73 +129,85 @@ fetch('trails.json').then(r => {
 
 function initValidity(d){
   const el = document.getElementById('validity');
-  const v = d.meta && d.meta.schedule_validity ? d.meta.schedule_validity : 'schedule validity unknown';
+  const v = (d.meta && d.meta.schedule_validity) || 'schedule validity unknown';
   el.textContent = 'Schedules: ' + v;
-  // crude staleness check: find last yyyy-mm-dd in the string
   const m = v.match(/\d{4}-\d{2}-\d{2}/g);
-  if(m){
-    const latest = m.sort().pop();
-    if(new Date() > new Date(latest + 'T23:59:59')) {
-      el.classList.add('stale');
-      el.textContent = '⚠ Schedules expired (' + v + ') — re-verify before travelling';
-    }
+  if(m && new Date() > new Date(m.sort().pop() + 'T23:59:59')){
+    el.classList.add('stale');
+    el.textContent = '\u26A0 Schedules expired (' + v + ') \u2014 re-verify before travelling';
   }
 }
 
-function fmtH(h){
-  const hh = Math.floor(h), mm = Math.round((h-hh)*60);
-  return mm ? hh+'h'+String(mm).padStart(2,'0') : hh+'h';
+const toMin = s => { const [h,m] = s.split(':').map(Number); return h*60+m; };
+const fmtH = h => { const hh = Math.floor(h), mm = Math.round((h-hh)*60); return mm ? hh+'h'+String(mm).padStart(2,'0') : hh+'h'; };
+
+// Returns {buffer, windowH, arrive, last, out, back} or null if no service that day
+function feasibility(t, day){
+  const refs = DATA.bus_refs;
+  const startRef = refs[t.bus_ref];
+  if(!startRef) return null;
+  const startDay = startRef.days[day];
+  // traverses: arrival from start stop, last bus from end stop
+  const endRef = t.end_bus_ref ? refs[t.end_bus_ref] : startRef;
+  const endDay = endRef.days[day];
+  if(!startDay || !endDay) return null;  // no service that day
+  const arrive = startDay.arrive, last = endDay.last;
+  const windowH = (toMin(last) - toMin(arrive))/60;
+  const approachH = 2*(t.approach_km||0)/4.5;
+  return {buffer: windowH - t.duration_h - approachH, windowH, arrive, last,
+          out: startDay.out, back: endDay.back, approachH};
 }
 
 function card(t){
   const done = getDone()[t.id];
   const isCut = t.status === 'cut_v1';
   const color = MASSIF_COLOR[t.massif] || 'var(--ink)';
-  const buf = typeof t.feasibility_buffer_h === 'number' ? t.feasibility_buffer_h : null;
-  const bufClass = buf === null ? '' : buf >= 2 ? 'ok' : buf >= 1 ? 'warn' : 'bad';
-  const approachH = 2 * (t.approach_km||0) / 4.5;
-  // day bar proportions
-  let bar = '';
-  if(buf !== null){
-    const windowH = t.duration_h + approachH + buf;
-    const pct = x => (100*x/windowH).toFixed(1)+'%';
-    const outM = (t.first_saturday_bus_out.match(/arr\.[^)]*?(\d{2}:\d{2})/)||[])[1] || '';
-    const backM = (t.last_saturday_bus_back.match(/(\d{2}:\d{2})/)||[])[1] || '';
-    bar = `<div class="daybar-wrap">
-      <div class="daybar-label"><span>arrive ${outM}</span><span>window ${fmtH(windowH)}</span><span>last bus ${backM}</span></div>
+  const ref = DATA.bus_refs[t.bus_ref] || {};
+  const f = isCut ? null : feasibility(t, state.day);
+  let midBlock = '';
+  if(isCut){
+    midBlock = `<div class="cutnote">Cut from v1 \u2014 ${t.reason||''}</div>`;
+  } else if(!f){
+    midBlock = `<div class="cutnote" style="color:var(--warn)">No confirmed ${state.day === 'sunday' ? 'Sunday/holiday' : state.day} service on ${ref.line||'this line'} \u2014 verify on carsisere.auvergnerhonealpes.fr</div>`;
+  } else {
+    const buf = f.buffer;
+    const bufClass = buf >= 2 ? 'ok' : buf >= 1 ? 'warn' : 'bad';
+    const pct = x => (100*x/f.windowH).toFixed(1)+'%';
+    midBlock = `<div class="daybar-wrap">
+      <div class="daybar-label"><span>arrive ${f.arrive}</span><span>window ${fmtH(f.windowH)}</span><span>last bus ${f.last}</span></div>
       <div class="daybar" title="hatched = approach walk, solid = hike, empty = slack">
-        <div class="seg walk" style="width:${pct(approachH/2)}"></div>
-        <div class="seg hike" style="width:${pct(t.duration_h)}"></div>
-        <div class="seg walk" style="width:${pct(approachH/2)}"></div>
-        <div class="seg slack" style="width:${pct(buf)}"></div>
+        <div class="seg walk" style="width:${pct(f.approachH/2)}"></div>
+        <div class="seg hike" style="width:${pct(Math.max(t.duration_h,0))}"></div>
+        <div class="seg walk" style="width:${pct(f.approachH/2)}"></div>
       </div>
-      <div class="buffer ${bufClass}">${buf >= 1 ? '' : '⚠ '}buffer ${fmtH(Math.max(buf,0))}${buf < 1 ? ' — tight, expert pace only' : ''}</div>
+      <div class="buffer ${bufClass}">${buf >= 1 ? '' : '\u26A0 '}buffer ${buf >= 0 ? fmtH(buf) : 'none \u2014 infeasible'}${buf >= 0 && buf < 1 ? ' \u2014 tight, expert pace only' : ''}</div>
     </div>`;
   }
-  const resa = t.reservation === true || t.reservation === 'CONDITIONAL (Flexo)';
+  const resa = ref.resa === true;
   return `<article class="card ${done?'done':''} ${isCut?'cut':''}" style="--massif:${color}">
     <div class="toprow">
       <div>
-        <div class="massif-tag">${t.massif}</div>
+        <div class="massif-tag">${t.massif}${t.stats_approx ? ' \u00B7 stats to validate' : ''}</div>
         <div class="tname">${t.name}</div>
       </div>
-      <div class="lozenge">${(t.bus_line||'?').split(' ')[0].replace('TO_VERIFY','—')}</div>
+      <div class="lozenge">${(ref.line||'\u2014')}${t.end_bus_ref ? '\u2192'+(DATA.bus_refs[t.end_bus_ref].line) : ''}</div>
     </div>
     <div class="stats">
       <div class="stat"><b>${t.distance_km} km</b><span>distance</span></div>
       <div class="stat"><b>${t.d_plus_m} m</b><span>D+</span></div>
       <div class="stat"><b>${fmtH(t.duration_h)}</b><span>duration</span></div>
-      <div class="stat"><b>${t.approach_km} km</b><span>stop→trail</span></div>
+      <div class="stat"><b>${t.approach_km} km</b><span>stop\u2192trail</span></div>
       <div class="stat"><b>${t.difficulty}</b><span>grade</span></div>
     </div>
-    ${isCut ? `<div class="cutnote">Cut from v1 — ${t.reason||''}</div>` : bar}
-    <div class="busline">From <b>${t.stop}</b> · first bus ${t.first_saturday_bus_out||'—'} · last back ${t.last_saturday_bus_back||'—'}</div>
+    ${midBlock}
+    <div class="busline">From <b>${ref.stop||'\u2014'}</b>${f ? ` \u00B7 first bus ${f.out} \u00B7 last back ${f.back}` : ''}</div>
+    ${t.note ? `<div class="busline">${t.note}</div>` : ''}
     <div class="badges">
-      <span class="badge">${t.fare_info||'fare —'}</span>
-      ${resa ? `<span class="badge resa">Reservation ${t.booking_url?`· <a href="${t.booking_url}" target="_blank" rel="noopener">book</a>`:''}</span>` : ''}
+      <span class="badge">${ref.fare||'fare \u2014'}</span>
+      ${resa ? `<span class="badge resa">Reservation ${ref.url?`\u00B7 <a href="${ref.url}" target="_blank" rel="noopener">book</a>`:''}</span>` : ''}
     </div>
     <div class="actions">
-      <a class="gpx" href="${t.gpx_osm}" target="_blank" rel="noopener">Route on OSM →</a>
+      <a class="gpx" href="${t.topo_url}" target="_blank" rel="noopener">Topo & GPX \u2192</a>
       <button class="donebtn ${done?'on':''}" data-id="${t.id}">${done?'Done it':'Mark done'}</button>
     </div>
   </article>`;
@@ -200,19 +218,20 @@ function render(){
   const g = document.getElementById('grid');
   let list = DATA.trails.filter(t => {
     if(t.status === 'cut_v1' && !state.showcut) return false;
-    if(String(t.bus_line).startsWith('TO_VERIFY') && !state.showcut) return false;
     if(state.massif !== 'all' && t.massif !== state.massif) return false;
     if(t.duration_h > state.maxdur) return false;
-    if(state.feasonly && t.status !== 'cut_v1' && typeof t.feasibility_buffer_h === 'number' && t.feasibility_buffer_h < 1) return false;
+    if(state.feasonly && t.status !== 'cut_v1'){
+      const f = feasibility(t, state.day);
+      if(f && f.buffer < 1) return false;
+    }
     return true;
   });
-  // rank: biggest buffer first, cut/unverified last
   list.sort((a,b) => {
-    const ba = typeof a.feasibility_buffer_h==='number' ? a.feasibility_buffer_h : -99;
-    const bb = typeof b.feasibility_buffer_h==='number' ? b.feasibility_buffer_h : -99;
-    return bb - ba;
+    const fa = a.status==='cut_v1' ? null : feasibility(a, state.day);
+    const fb = b.status==='cut_v1' ? null : feasibility(b, state.day);
+    return (fb ? fb.buffer : -99) - (fa ? fa.buffer : -99);
   });
-  g.innerHTML = list.length ? list.map(card).join('') : '<div class="empty">No trails match — loosen a filter.</div>';
+  g.innerHTML = list.length ? list.map(card).join('') : '<div class="empty">No trails match \u2014 loosen a filter.</div>';
   g.querySelectorAll('.donebtn').forEach(b => b.addEventListener('click', () => {
     const d = getDone(); d[b.dataset.id] = !d[b.dataset.id]; if(!d[b.dataset.id]) delete d[b.dataset.id];
     setDone(d); render();
@@ -223,6 +242,7 @@ document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () =
   document.querySelectorAll('.chip').forEach(x => x.classList.remove('on'));
   c.classList.add('on'); state.massif = c.dataset.massif; render();
 }));
+document.getElementById('daytype').addEventListener('change', e => { state.day = e.target.value; render(); });
 document.getElementById('maxdur').addEventListener('change', e => { state.maxdur = +e.target.value; render(); });
 document.getElementById('feasonly').addEventListener('change', e => { state.feasonly = e.target.checked; render(); });
 document.getElementById('showcut').addEventListener('change', e => { state.showcut = e.target.checked; render(); });
