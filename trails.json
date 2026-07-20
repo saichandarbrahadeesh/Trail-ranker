@@ -1,44 +1,74 @@
 {
   "meta": {
-    "version": "2.0",
-    "generated": "2026-07-16",
-    "scope": "Bus-accessible day hikes from Grenoble — weekday (summer), Saturday, and Sunday/holiday schedules",
-    "schedule_validity": "summer 2026 (until 2026-08-30 for N93; T40/T64/T65 fiches until 2026-08-31; N62 fiche from 2025-09-01)",
-    "schedule_status": "Weekday + Saturday validated from official fiches horaires PDFs. Sunday/holiday validated for N62 and N93 (shared samedi/dimanche/férié column); Sunday for T64/T65 not confidently extractable from the fiche — shown as 'verify' in app.",
-    "notes": "Trails marked stats_approx need field validation of distance/D+/duration. Topo links point to exact Visorando route pages where confirmed, otherwise the Visorando commune topo listing for the trailhead.",
+    "version": "3.0",
+    "generated": "2026-07-20",
+    "app_name": "Bus & Boots Grenoble",
+    "tagline": "Rando Grenoble Sans Voiture",
+    "schedule_validity": "Summer 2026 — N93 until 30 Aug; T64/T65 until 31 Aug; N62 fiche from 01 Sep 2025. Re-verify each September.",
+    "pace_factor": 1.0,
+    "safety_buffer_min": 45,
+    "walk_speed_kmh": 4,
     "cross_check": [
       "https://rando-sans-voiture.fr",
-      "https://www.changerdapproche.org",
-      "https://naturesansvoiture.wordpress.com"
+      "https://www.changerdapproche.org"
     ]
   },
   "bus_refs": {
     "N62_colporte": {
       "line": "N62",
       "stop": "Sarcenas Col de Porte",
-      "fare": "M réso ticket (Destinations Nature: 6€ AR to Col de Porte non-abonné)",
+      "fare": "M réso ticket · 6€ AR to Col de Porte with Destinations reservation",
       "resa": true,
       "url": "https://www.reso-m.fr/destinations-n",
-      "days": {
-        "weekday": {
-          "arrive": "08:51",
-          "last": "17:30",
-          "out": "08:15 Notre-Dame–Musée",
-          "back": "17:30 from Col de Porte"
-        },
-        "saturday": {
-          "arrive": "08:50",
-          "last": "18:15",
-          "out": "08:15 Notre-Dame–Musée",
-          "back": "18:15 from Col de Porte"
-        },
-        "sunday": {
-          "arrive": "08:50",
-          "last": "18:15",
-          "out": "08:15 Notre-Dame–Musée",
-          "back": "18:15 from Col de Porte"
-        }
-      }
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:15",
+            "arr": "08:50"
+          },
+          {
+            "dep": "09:30",
+            "arr": "10:05"
+          },
+          {
+            "dep": "10:30",
+            "arr": "11:05"
+          },
+          {
+            "dep": "11:30",
+            "arr": "12:05"
+          },
+          {
+            "dep": "12:30",
+            "arr": "13:05"
+          },
+          {
+            "dep": "13:30",
+            "arr": "14:05"
+          },
+          {
+            "dep": "14:45",
+            "arr": "15:20"
+          },
+          {
+            "dep": "16:00",
+            "arr": "16:35"
+          }
+        ],
+        "returns": [
+          "09:00",
+          "10:15",
+          "11:30",
+          "12:45",
+          "14:00",
+          "15:00",
+          "16:00",
+          "17:00",
+          "18:15"
+        ]
+      },
+      "lat": 45.2933,
+      "lng": 5.7686
     },
     "N62_sappey": {
       "line": "N62",
@@ -46,173 +76,284 @@
       "fare": "M réso ticket",
       "resa": false,
       "url": null,
-      "days": {
-        "weekday": {
-          "arrive": "08:40",
-          "last": "17:40",
-          "out": "08:15 Notre-Dame–Musée",
-          "back": "17:40 from Sappey Place"
-        },
-        "saturday": {
-          "arrive": "08:39",
-          "last": "18:24",
-          "out": "08:15 Notre-Dame–Musée",
-          "back": "18:24 from Sappey Place"
-        },
-        "sunday": {
-          "arrive": "08:39",
-          "last": "18:24",
-          "out": "08:15 Notre-Dame–Musée",
-          "back": "18:24 from Sappey Place"
-        }
-      }
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:15",
+            "arr": "08:39"
+          },
+          {
+            "dep": "09:30",
+            "arr": "09:54"
+          },
+          {
+            "dep": "10:30",
+            "arr": "10:54"
+          },
+          {
+            "dep": "11:30",
+            "arr": "11:54"
+          },
+          {
+            "dep": "12:30",
+            "arr": "12:54"
+          },
+          {
+            "dep": "13:30",
+            "arr": "13:54"
+          },
+          {
+            "dep": "14:45",
+            "arr": "15:09"
+          },
+          {
+            "dep": "16:00",
+            "arr": "16:24"
+          }
+        ],
+        "returns": [
+          "09:09",
+          "10:24",
+          "11:39",
+          "12:54",
+          "14:09",
+          "15:09",
+          "16:09",
+          "17:09",
+          "18:24"
+        ]
+      },
+      "lat": 45.2586,
+      "lng": 5.7639
     },
     "T65_stnizier": {
       "line": "T65",
       "stop": "St-Nizier-du-Moucherotte Le Village",
-      "fare": "Cars Région zone ticket / SMS ticket 93222",
+      "fare": "Cars Région zone ticket / SMS 93222",
       "resa": false,
       "url": null,
-      "days": {
-        "weekday": {
-          "arrive": "08:34",
-          "last": "18:28",
-          "out": "07:50 Grenoble Gare Routière",
-          "back": "18:28 from Le Village"
-        },
-        "saturday": {
-          "arrive": "08:04",
-          "last": "18:23",
-          "out": "07:25 Grenoble Gare Routière",
-          "back": "18:23 from Le Village"
-        },
-        "sunday": null
-      }
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "07:25",
+            "arr": "08:04"
+          },
+          {
+            "dep": "09:55",
+            "arr": "10:34"
+          },
+          {
+            "dep": "12:15",
+            "arr": "12:54"
+          }
+        ],
+        "returns": [
+          "08:27",
+          "10:57",
+          "13:54",
+          "16:42",
+          "18:59"
+        ]
+      },
+      "lat": 45.1544,
+      "lng": 5.6428
     },
     "T64_lans": {
       "line": "T64",
       "stop": "Lans-en-Vercors Office de Tourisme",
-      "fare": "Cars Région zone ticket / SMS ticket 93222",
+      "fare": "Cars Région zone ticket / SMS 93222",
       "resa": false,
       "url": null,
-      "days": {
-        "weekday": {
-          "arrive": "08:23",
-          "last": "18:15",
-          "out": "07:40 Grenoble Gare Routière",
-          "back": "18:15 from Lans OT"
-        },
-        "saturday": {
-          "arrive": "08:23",
-          "last": "19:00",
-          "out": "07:40 Grenoble Gare Routière",
-          "back": "19:00 from Lans OT"
-        },
-        "sunday": null
-      }
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "07:40",
+            "arr": "08:23"
+          },
+          {
+            "dep": "10:30",
+            "arr": "11:13"
+          },
+          {
+            "dep": "12:30",
+            "arr": "13:13"
+          },
+          {
+            "dep": "14:20",
+            "arr": "15:03"
+          }
+        ],
+        "returns": [
+          "08:25",
+          "11:05",
+          "13:05",
+          "15:35",
+          "16:50",
+          "18:10",
+          "19:00"
+        ]
+      },
+      "lat": 45.1281,
+      "lng": 5.5892
     },
     "T64_villard": {
       "line": "T64",
       "stop": "Villard-de-Lans Gare Routière",
-      "fare": "Cars Région zone ticket / SMS ticket 93222",
+      "fare": "Cars Région zone ticket / SMS 93222",
       "resa": false,
       "url": null,
-      "days": {
-        "weekday": {
-          "arrive": "08:40",
-          "last": "18:00",
-          "out": "07:40 Grenoble Gare Routière",
-          "back": "18:00 from Villard GR"
-        },
-        "saturday": {
-          "arrive": "08:40",
-          "last": "18:45",
-          "out": "07:40 Grenoble Gare Routière",
-          "back": "18:45 from Villard GR"
-        },
-        "sunday": null
-      }
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "07:40",
+            "arr": "08:40"
+          },
+          {
+            "dep": "10:30",
+            "arr": "11:30"
+          },
+          {
+            "dep": "12:30",
+            "arr": "13:30"
+          },
+          {
+            "dep": "14:20",
+            "arr": "15:20"
+          }
+        ],
+        "returns": [
+          "11:30",
+          "13:30",
+          "15:20",
+          "18:00",
+          "18:45"
+        ]
+      },
+      "lat": 45.0706,
+      "lng": 5.5533
     },
     "N93_1650": {
       "line": "N93",
       "stop": "Chamrousse 1650 Le Recoin",
-      "fare": "12€ AR reserved online; 10€ single cash on board",
+      "fare": "12€ AR reserved online · 10€ single cash on board",
       "resa": true,
       "url": "https://www.bus-et-clic.com/mreso",
-      "days": {
-        "weekday": {
-          "arrive": "09:05",
-          "last": "18:30",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:30 from 1650 Recoin"
-        },
-        "saturday": {
-          "arrive": "09:05",
-          "last": "18:30",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:30 from 1650 Recoin"
-        },
-        "sunday": {
-          "arrive": "09:05",
-          "last": "18:30",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:30 from 1650 Recoin"
-        }
-      }
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:00",
+            "arr": "09:05"
+          },
+          {
+            "dep": "09:00",
+            "arr": "10:05"
+          },
+          {
+            "dep": "11:45",
+            "arr": "12:50"
+          },
+          {
+            "dep": "13:45",
+            "arr": "14:50"
+          },
+          {
+            "dep": "15:45",
+            "arr": "16:50"
+          }
+        ],
+        "returns": [
+          "09:30",
+          "10:30",
+          "14:30",
+          "15:30",
+          "17:30",
+          "18:30"
+        ]
+      },
+      "lat": 45.1189,
+      "lng": 5.8794
     },
     "N93_1750": {
       "line": "N93",
       "stop": "Chamrousse 1750 Roche Béranger",
-      "fare": "12€ AR reserved online; 10€ single cash on board",
+      "fare": "12€ AR reserved online · 10€ single cash on board",
       "resa": true,
       "url": "https://www.bus-et-clic.com/mreso",
-      "days": {
-        "weekday": {
-          "arrive": "09:10",
-          "last": "18:25",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:25 from 1750 Roche Béranger"
-        },
-        "saturday": {
-          "arrive": "09:10",
-          "last": "18:25",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:25 from 1750 Roche Béranger"
-        },
-        "sunday": {
-          "arrive": "09:10",
-          "last": "18:25",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:25 from 1750 Roche Béranger"
-        }
-      }
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:00",
+            "arr": "09:10"
+          },
+          {
+            "dep": "09:00",
+            "arr": "10:10"
+          },
+          {
+            "dep": "11:45",
+            "arr": "12:55"
+          },
+          {
+            "dep": "13:45",
+            "arr": "14:55"
+          },
+          {
+            "dep": "15:45",
+            "arr": "16:55"
+          }
+        ],
+        "returns": [
+          "09:25",
+          "10:25",
+          "14:25",
+          "15:25",
+          "17:25",
+          "18:25"
+        ]
+      },
+      "lat": 45.1156,
+      "lng": 5.885
     },
     "N93_seiglieres": {
       "line": "N93",
       "stop": "Les Seiglières",
-      "fare": "12€ AR reserved online; 10€ single cash on board (shorter segment may be less)",
+      "fare": "12€ AR reserved online · 10€ single cash on board",
       "resa": true,
       "url": "https://www.bus-et-clic.com/mreso",
-      "days": {
-        "weekday": {
-          "arrive": "08:47",
-          "last": "18:48",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:48 from Les Seiglières"
-        },
-        "saturday": {
-          "arrive": "08:47",
-          "last": "18:48",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:48 from Les Seiglières"
-        },
-        "sunday": {
-          "arrive": "08:47",
-          "last": "18:48",
-          "out": "08:00 Grenoble Gare Routière",
-          "back": "18:48 from Les Seiglières"
-        }
-      }
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:00",
+            "arr": "08:47"
+          },
+          {
+            "dep": "09:00",
+            "arr": "09:47"
+          },
+          {
+            "dep": "11:45",
+            "arr": "12:32"
+          },
+          {
+            "dep": "13:45",
+            "arr": "14:32"
+          },
+          {
+            "dep": "15:45",
+            "arr": "16:32"
+          }
+        ],
+        "returns": [
+          "09:48",
+          "10:48",
+          "14:48",
+          "15:48",
+          "17:48",
+          "18:48"
+        ]
+      },
+      "lat": 45.1361,
+      "lng": 5.8489
     }
   },
   "trails": [
@@ -321,14 +462,14 @@
       "name": "Traversée Moucherotte: St-Nizier → Lans",
       "massif": "Vercors",
       "bus_ref": "T65_stnizier",
+      "end_bus_ref": "T64_lans",
       "approach_km": 0.4,
       "distance_km": 13.0,
       "d_plus_m": 820,
       "difficulty": "T2",
       "duration_h": 5.0,
       "topo_url": "https://www.visorando.com/randonnee-saint-nizier-du-moucherotte.html",
-      "note": "Bus-only classic: out on T65, return on T64 from Lans OT. Feasibility uses T64 last bus from Lans.",
-      "end_bus_ref": "T64_lans",
+      "note": "Out on T65, return on T64 from Lans OT.",
       "stats_approx": true
     },
     {
@@ -393,7 +534,7 @@
       "difficulty": "T3",
       "duration_h": 7.5,
       "topo_url": "https://www.visorando.com/randonnee-villard-de-lans.html",
-      "note": "Tight on all days — expert pace only; check Côte 2000 summer navette to cut the approach."
+      "note": "Tight — expert pace only; check Côte 2000 summer navette to cut the approach."
     },
     {
       "id": "croix-chamrousse",
@@ -471,7 +612,7 @@
       "duration_h": 7.0,
       "topo_url": "https://www.visorando.com/randonnee-saint-pierre-de-chartreuse.html",
       "status": "cut_v1",
-      "reason": "T40 last Saturday return 12:55 — no usable window"
+      "reason": "T40 last Saturday return 12:55"
     },
     {
       "id": "lac-crozet",
@@ -485,7 +626,7 @@
       "duration_h": 4.0,
       "topo_url": "https://www.visorando.com/randonnee-revel.html",
       "status": "cut_v1",
-      "reason": "No confirmed Saturday bus to Revel/Freydières; 5.5 km road approach infeasible"
+      "reason": "No confirmed Saturday bus to Freydières; 5.5km road approach"
     },
     {
       "id": "grand-colon",
@@ -499,7 +640,7 @@
       "duration_h": 5.0,
       "topo_url": "https://www.visorando.com/randonnee-revel.html",
       "status": "cut_v1",
-      "reason": "No confirmed Saturday bus to Revel/Freydières"
+      "reason": "No confirmed Saturday bus to Freydières"
     }
   ]
 }
