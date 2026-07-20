@@ -205,7 +205,6 @@ function card(t){
     midBlock = `<div class="opts"><div class="oh"><span>Leave Gre.</span><span>Arrive</span><span>Return</span><span>Buffer</span></div>${rows}</div>`;
   }
   const resa = ref.resa === true;
-  const komoot = t.komoot_url || ('https://www.komoot.com/discover/'+encodeURIComponent(t.name.split(/[(,]/)[0].trim()));
   return `<article id="card-${t.id}" class="card ${done?'done':''} ${isCut?'cut':''}" style="--massif:${color}">
     <div class="toprow">
       <div>
@@ -229,7 +228,7 @@ function card(t){
       ${resa ? `<span class="badge resa">Reservation ${ref.url?`· <a href="${ref.url}" target="_blank" rel="noopener">book</a>`:''}</span>` : ''}
     </div>
     <div class="actions">
-      <a class="gpx" href="${komoot}" target="_blank" rel="noopener">Komoot topo & GPX →</a>
+      <a class="gpx" href="${t.topo_url}" target="_blank" rel="noopener">Topo & GPX →</a>
       <button class="donebtn ${done?'on':''}" data-id="${t.id}">${done?'Done it':'Mark done'}</button>
     </div>
   </article>`;
