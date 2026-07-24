@@ -72,7 +72,9 @@ main{max-width:980px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-temp
 .opts{margin:12px 0 4px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .opts .oh,.opts .orow{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;padding:6px 10px;align-items:center}
 .opts .oh{background:var(--paper);font-family:'Barlow Condensed';font-weight:600;font-size:.72rem;
-  text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  text-transform:uppercase;letter-spacing:.05em;color:var(--muted);align-items:start}
+.opts .oh em{display:block;font-style:normal;font-family:'Barlow',sans-serif;font-weight:600;
+  font-size:.76rem;text-transform:none;letter-spacing:0;color:var(--ink);line-height:1.2;margin-top:1px}
 .opts .orow{border-top:1px solid var(--line);font-size:.9rem;font-variant-numeric:tabular-nums}
 .opts .orow b{font-family:'Barlow Condensed';font-weight:700}
 .spare{font-family:'Barlow Condensed';font-weight:700;font-size:.82rem;padding:2px 7px;border-radius:4px;text-align:center;white-space:nowrap}
@@ -202,7 +204,9 @@ function card(t){
       if(r.ret===null) return `<div class="orow"><b>${r.dep}</b><span>${r.arr}</span><span style="color:var(--bad)">back ${hhmm(r.back)}</span><span class="spare bad">no return</span></div>`;
       return `<div class="orow"><b>${r.dep}</b><span>${r.arr}</span><b>${hhmm(r.ret)}</b><span class="spare ${spareClass(r.spare)}">${durTxt(r.spare)} spare</span></div>`;
     }).join('');
-    midBlock = `<div class="opts"><div class="oh"><span>Leave Gre.</span><span>Arrive</span><span>Return</span><span>Buffer</span></div>${rows}</div>`;
+    const offStop = ref.stop || '—';
+    const backStop = t.end_bus_ref && DATA.bus_refs[t.end_bus_ref] ? DATA.bus_refs[t.end_bus_ref].stop : offStop;
+    midBlock = `<div class="opts"><div class="oh"><span>Leave Gre.</span><span>Get off<em>${offStop}</em></span><span>Return from<em>${backStop}</em></span><span>Buffer</span></div>${rows}</div>`;
   }
   const resa = ref.resa === true;
   return `<article id="card-${t.id}" class="card ${done?'done':''} ${isCut?'cut':''}" style="--massif:${color}">
