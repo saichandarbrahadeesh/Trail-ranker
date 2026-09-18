@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bus &amp; Boots Grenoble — hikes you can reach by bus</title>
+<title>Bus & Boots Grenoble — hikes you can reach by bus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
@@ -18,51 +18,57 @@
 body{font-family:'Barlow',sans-serif;background:var(--paper);color:var(--ink);line-height:1.45;
   background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(30,42,43,.03) 40px),
                    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(30,42,43,.03) 40px);}
-header{padding:28px 20px 14px;max-width:1080px;margin:0 auto}
+header{padding:28px 20px 14px;max-width:980px;margin:0 auto}
 h1{font-family:'Barlow Condensed';font-weight:700;font-size:clamp(2rem,5vw,3rem);letter-spacing:.01em;text-transform:uppercase}
-h1 .accent{color:var(--vercors)} h1 .place{color:var(--muted)}
+h1 .accent{color:var(--vercors)}
+h1 .place{color:var(--muted)}
 .tagline{font-family:'Barlow Condensed';font-weight:600;font-size:.8rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--chartreuse);margin-top:1px}
 .sub{color:var(--muted);font-size:.95rem;margin-top:4px;display:flex;align-items:center;gap:5px}
+.busicon{vertical-align:middle}
 .validity{display:inline-block;margin-top:10px;font-size:.8rem;background:var(--ink);color:var(--paper);
   padding:4px 10px;border-radius:3px;font-family:'Barlow Condensed';letter-spacing:.04em}
-#map{max-width:1080px;margin:14px auto 0;height:320px;border:1px solid var(--line);border-radius:10px;z-index:0}
-.map-cap{max-width:1080px;margin:6px auto 0;padding:0 20px;font-size:.78rem;color:var(--muted)}
+.validity.stale{background:var(--bad)}
+/* map */
+#map{max-width:980px;margin:14px auto 0;height:340px;border:1px solid var(--line);border-radius:10px;z-index:0}
+.map-cap{max-width:980px;margin:6px auto 0;padding:0 20px;font-size:.78rem;color:var(--muted)}
 .leaflet-container{font-family:'Barlow',sans-serif;background:var(--paper)}
-.trailpin{color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;
-  font-family:'Barlow Condensed';font-weight:700;font-size:.68rem;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.trailpin{background:var(--ink);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;
+  align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:.72rem;
+  border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
 .pin-chartreuse{background:var(--chartreuse)} .pin-vercors{background:var(--vercors)} .pin-belledonne{background:var(--belledonne)}
 .pin-grenoble{background:var(--warn);width:14px;height:14px}
+.leaflet-popup-content{margin:10px 12px}
 .pp-name{font-family:'Barlow Condensed';font-weight:700;font-size:1.05rem;line-height:1.1}
+.pp-massif{font-family:'Barlow Condensed';font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
 .pp-meta{font-size:.82rem;color:var(--muted);margin-top:3px}
-.pp-link{font-size:.82rem;color:var(--vercors);cursor:pointer;text-decoration:underline;margin-top:5px;
-  display:inline-block;background:none;border:none;padding:0;font-family:inherit}
-.filters{max-width:1080px;margin:16px auto 6px;padding:0 20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pp-link{font-size:.82rem;color:var(--vercors);cursor:pointer;text-decoration:underline;margin-top:5px;display:inline-block;background:none;border:none;padding:0;font-family:inherit}
+.filters{max-width:980px;margin:16px auto 6px;padding:0 20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .filters label{font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .chip{border:1.5px solid var(--line);background:var(--card);border-radius:20px;padding:5px 14px;cursor:pointer;
   font-family:'Barlow Condensed';font-weight:600;font-size:.9rem;letter-spacing:.03em;transition:all .15s}
 .chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 select{border:1.5px solid var(--line);border-radius:6px;padding:5px 8px;font-family:'Barlow',sans-serif;background:var(--card)}
 .check{display:flex;align-items:center;gap:5px;font-size:.88rem;cursor:pointer;user-select:none}
-.count{max-width:1080px;margin:8px auto 0;padding:0 20px;font-size:.85rem;color:var(--muted)}
-main{max-width:1080px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:16px}
-@media(max-width:560px){main{grid-template-columns:1fr}}
+main{max-width:980px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:16px}
+@media(max-width:520px){main{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;
   border-top:4px solid var(--massif,var(--ink));transition:box-shadow .15s;scroll-margin-top:20px}
 .card:hover{box-shadow:0 3px 14px rgba(30,42,43,.09)}
 .card.flash{box-shadow:0 0 0 3px var(--massif)}
 .card.done{opacity:.72}
 .card.done .tname::after{content:" ✓";color:var(--ok)}
+.card.cut{opacity:.5;border-style:dashed}
 .toprow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.tname{font-family:'Barlow Condensed';font-weight:700;font-size:1.3rem;line-height:1.1}
+.tname{font-family:'Barlow Condensed';font-weight:700;font-size:1.35rem;line-height:1.1}
 .massif-tag{font-family:'Barlow Condensed';font-weight:600;font-size:.78rem;text-transform:uppercase;
   letter-spacing:.08em;color:var(--massif)}
 .lozenge{flex-shrink:0;font-family:'Barlow Condensed';font-weight:700;font-size:1rem;background:var(--ink);
   color:#fff;border-radius:6px;padding:3px 10px;letter-spacing:.02em}
-.teaser{font-size:.86rem;color:var(--muted);margin-top:6px;font-style:italic}
 .stats{display:flex;gap:14px;margin:10px 0 4px;flex-wrap:wrap}
 .stat{font-size:.9rem}.stat b{font-family:'Barlow Condensed';font-size:1.05rem;font-weight:700}
 .stat span{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;display:block}
+/* options table */
 .opts{margin:12px 0 4px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .opts .oh,.opts .orow{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;padding:6px 10px;align-items:center}
 .opts .oh{background:var(--paper);font-family:'Barlow Condensed';font-weight:600;font-size:.72rem;
@@ -79,10 +85,6 @@ main{max-width:1080px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-tem
 .badge{font-family:'Barlow Condensed';font-weight:600;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;
   border-radius:4px;padding:3px 8px;border:1px solid var(--line);color:var(--muted)}
 .badge.resa{background:#FBEEDD;border-color:#E8CBA4;color:#8A5A1E}
-.badge.bus{background:#E4EFE7;border-color:#A9C9B4;color:#2F6140}
-.badge.est{background:#FBEEDD;border-color:#E8CBA4;color:#8A5A1E}
-.badge.meas{background:#EEF3F7;border-color:#BBD0E0;color:#2C5F8A}
-.badge.verified{background:#EEF3F7;border-color:#BBD0E0;color:#2C5F8A}
 .badge a{color:inherit}
 .actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
 .gpx{font-size:.85rem;color:var(--vercors);text-decoration:none;font-weight:500}
@@ -90,10 +92,9 @@ main{max-width:1080px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-tem
 .donebtn{font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;
   border:1.5px solid var(--line);background:none;border-radius:6px;padding:5px 12px;cursor:pointer;color:var(--muted)}
 .donebtn.on{background:var(--ok);border-color:var(--ok);color:#fff}
-.cutnote{font-size:.82rem;color:var(--warn);font-weight:500;margin-top:8px}
+.cutnote{font-size:.82rem;color:var(--bad);font-weight:500;margin-top:8px}
 .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
-footer{max-width:1080px;margin:0 auto;padding:0 20px 30px;font-size:.78rem;color:var(--muted)}
-footer a{color:var(--muted)}
+footer{max-width:980px;margin:0 auto;padding:0 20px 30px;font-size:.78rem;color:var(--muted)}
 .chip:focus-visible,.donebtn:focus-visible,select:focus-visible{outline:2px solid var(--vercors);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -103,216 +104,190 @@ footer a{color:var(--muted)}
   <h1>Bus <span class="accent">&amp;</span> Boots <span class="place">Grenoble</span></h1>
   <div class="tagline">Rando Grenoble Sans Voiture</div>
   <div class="sub">Day hikes from Grenoble — accessible by bus
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="3" fill="#fff" stroke="#2C5F8A" stroke-width="1.6"/><rect x="6" y="7" width="4.5" height="4" rx="1" fill="#2C5F8A"/><rect x="13.5" y="7" width="4.5" height="4" rx="1" fill="#2C5F8A"/><circle cx="8" cy="19" r="2" fill="#1E2A2B"/><circle cx="16" cy="19" r="2" fill="#1E2A2B"/></svg>
+    <svg class="busicon" width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="3" fill="#fff" stroke="#2C5F8A" stroke-width="1.6"/><rect x="6" y="7" width="4.5" height="4" rx="1" fill="#2C5F8A"/><rect x="13.5" y="7" width="4.5" height="4" rx="1" fill="#2C5F8A"/><circle cx="8" cy="19" r="2" fill="#1E2A2B"/><circle cx="16" cy="19" r="2" fill="#1E2A2B"/></svg>
   </div>
   <div class="validity" id="validity"></div>
 </header>
 
 <div id="map"></div>
-<div class="map-cap">Pins mark each trailhead bus stop, coloured by massif. Click a pin to jump to the trail. Grenoble is the orange dot.</div>
+<div class="map-cap">Pins mark each trailhead bus stop, coloured by massif. Click a pin to jump to that trail. Grenoble is the orange dot.</div>
 
 <div class="filters" id="filters">
+  <label>Day</label>
+  <select id="daytype">
+    <option value="saturday">Saturday</option>
+  </select>
   <label>Massif</label>
   <button class="chip on" data-massif="all">All</button>
   <button class="chip" data-massif="Chartreuse">Chartreuse</button>
   <button class="chip" data-massif="Vercors">Vercors</button>
   <button class="chip" data-massif="Belledonne">Belledonne</button>
-  <label>Max walk</label>
+  <label>Max duration</label>
   <select id="maxdur">
     <option value="99">Any</option><option value="3">≤ 3 h</option>
     <option value="5">≤ 5 h</option><option value="7">≤ 7 h</option>
   </select>
-  <label>From stop</label>
-  <select id="maxappr">
-    <option value="99">Any</option><option value="0.3">≤ 300 m</option>
-    <option value="1">≤ 1 km</option><option value="2">≤ 2 km</option>
-  </select>
-  <label class="check"><input type="checkbox" id="feasonly" checked> Doable on Saturday</label>
-  <label class="check"><input type="checkbox" id="busonly"> Park &ldquo;Rando Bus&rdquo; only</label>
-  <label class="check"><input type="checkbox" id="hidedone"> Hide done</label>
+  <label class="check"><input type="checkbox" id="feasonly" checked> Feasible only</label>
+  <label class="check"><input type="checkbox" id="showcut"> Show cut trails</label>
 </div>
 
-<div class="count" id="count"></div>
 <main id="grid"></main>
-<footer id="foot"></footer>
+<footer>For each departure, the return shown is the earliest bus that clears your arrival + approach walk (both ways, 4 km/h) + hike + 45-min buffer. Times from official fiches horaires; always re-check before travelling.</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
-const MASSIF_COLOR={Chartreuse:'var(--chartreuse)',Vercors:'var(--vercors)',Belledonne:'var(--belledonne)'};
-const doneKey='busboots_done';
-const getDone=()=>{try{return JSON.parse(localStorage.getItem(doneKey))||{}}catch(e){return {}}};
-const setDone=d=>{try{localStorage.setItem(doneKey,JSON.stringify(d))}catch(e){}};
+const MASSIF_COLOR = {Chartreuse:'var(--chartreuse)', Vercors:'var(--vercors)', Belledonne:'var(--belledonne)'};
+const doneKey = 'trailranker_done';
+const getDone = () => { try { return JSON.parse(localStorage.getItem(doneKey)) || {}; } catch(e){ return {}; } };
+const setDone = d => { try { localStorage.setItem(doneKey, JSON.stringify(d)); } catch(e){} };
 
-let TRAILS=null, STOPS=null, MAP=null, MARKERS={};
-let state={massif:'all',maxdur:99,maxappr:99,feasonly:true,busonly:false,hidedone:false};
-const PACE=1.0, BUFFER_MIN=45;
+let DATA=null, MAP=null, MARKERS={};
+let state = {day:'saturday', massif:'all', maxdur:99, feasonly:true, showcut:false};
+let PACE=1.0, BUFFER=45, WALK=4;
 
-const toMin=s=>{const[h,m]=s.split(':').map(Number);return h*60+m};
-const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
-const durTxt=m=>{m=Math.abs(Math.round(m));return Math.floor(m/60)+'h'+String(m%60).padStart(2,'0')};
-const fmtH=h=>{const hh=Math.floor(h),mm=Math.round((h-hh)*60);return mm?hh+'h'+String(mm).padStart(2,'0'):hh+'h'};
-const deAcc=s=>(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+fetch('trails.json').then(r => {
+  if(!r.ok) throw new Error('trails.json not found ('+r.status+')');
+  return r.json();
+}).then(d => {
+  DATA=d;
+  const m=d.meta||{}; PACE=m.pace_factor||1; BUFFER=m.safety_buffer_min||45; WALK=m.walk_speed_kmh||4;
+  initValidity(d); initMap(); render();
+}).catch(e => {
+  document.getElementById('grid').innerHTML =
+    '<div class="empty">Could not load trails.json — check that it sits next to index.html in the repo.<br>'+e.message+'</div>';
+});
 
-/* Trails reference stops by several different ids depending on their source:
-   park trails use the GTFS stop_id; hand-verified trails use the old bus_ref
-   key ("N62_colporte") while schedules.json stores those as
-   "MANUAL_N62_colporte". Resolve by trying each, then by stop name. */
-function resolveStop(t){
-  if(!STOPS) return null;
-  if(t.stop_id && STOPS[t.stop_id]) return STOPS[t.stop_id];
-  if(t.stop_id && STOPS['MANUAL_'+t.stop_id]) return STOPS['MANUAL_'+t.stop_id];
-  if(t.stop){
-    const want=deAcc(t.stop);
-    for(const k in STOPS){ if(deAcc(STOPS[k].stop)===want) return STOPS[k]; }
-    for(const k in STOPS){ const s=deAcc(STOPS[k].stop);
-      if(s.includes(want)||want.includes(s)) return STOPS[k]; }
-  }
-  return null;
+function initValidity(d){
+  const el = document.getElementById('validity');
+  const v = (d.meta && d.meta.schedule_validity) || 'schedule validity unknown';
+  el.textContent = 'Schedules: ' + v;
 }
 
-/* For each Saturday departure, find the earliest return that clears
-   arrival + walk to trail + hike + walk back + safety buffer. */
-function options(t){
-  const stop=resolveStop(t);
-  if(!stop||!stop.saturday) return null;
-  const out=stop.saturday.outbound||[], rets=(stop.saturday.returns||[]).map(r=>
-    typeof r==='string'?{dep:r}:r);
-  if(!out.length||!rets.length) return null;
-  const walk = t.approach_min!=null ? t.approach_min
-             : (t.approach_km!=null ? Math.round(t.approach_km/4*60) : 0);
-  const hike = t.duration_h!=null ? Math.round(t.duration_h*60*PACE) : null;
-  if(hike==null) return {rows:[],anyViable:false,stop,noDuration:true};
-  const retMin=rets.map(r=>({m:toMin(r.dep),line:r.line})).sort((a,b)=>a.m-b.m);
-  const rows=out.map(o=>{
-    const arrive=toMin(o.arr), back=arrive+walk+hike+walk, need=back+BUFFER_MIN;
-    let pick=null; for(const r of retMin){ if(r.m>=need){pick=r;break} }
-    return {dep:o.dep,arr:o.arr,back,ret:pick?pick.m:null,spare:pick?pick.m-back:null};
+const toMin = s => { const [h,m] = s.split(':').map(Number); return h*60+m; };
+const fmtH = h => { const hh=Math.floor(h), mm=Math.round((h-hh)*60); return mm ? hh+'h'+String(mm).padStart(2,'0') : hh+'h'; };
+const hhmm = m => String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const durTxt = m => { m=Math.abs(m); return Math.floor(m/60)+'h'+String(m%60).padStart(2,'0'); };
+
+// For a trail + day, compute every outbound option paired with its earliest safe return.
+function options(t, day){
+  const refs=DATA.bus_refs, start=refs[t.bus_ref];
+  if(!start || !start[day]) return null;
+  const endRef = t.end_bus_ref ? refs[t.end_bus_ref] : start;
+  if(!endRef || !endRef[day]) return null;
+  const walkOne = Math.round((t.approach_km||0)/WALK*60);
+  const hike = Math.round(t.duration_h*60*PACE);
+  const returns = endRef[day].returns.map(toMin).sort((a,b)=>a-b);
+  const rows = start[day].outbound.map(o => {
+    const arrive=toMin(o.arr), back=arrive+walkOne+hike+walkOne, need=back+BUFFER;
+    let pick=null; for(const r of returns){ if(r>=need){pick=r;break;} }
+    return {dep:o.dep, arr:o.arr, back, ret:pick, spare: pick!==null ? pick-back : null};
   });
-  return {rows,anyViable:rows.some(r=>r.ret!==null),stop,walk,hike};
+  return {rows, endRef, startRef:start, anyViable: rows.some(r=>r.ret!==null)};
 }
-const spareClass=s=>s===null?'bad':s>=90?'ok':'warn';
-function bestSpare(t){const o=options(t);if(!o||!o.anyViable)return -1;
-  return Math.max(...o.rows.map(r=>r.spare===null?-1:r.spare));}
+const spareClass = s => s===null ? 'bad' : s>=90 ? 'ok' : 'warn';
+function bestSpare(t){ const o=options(t,state.day); if(!o||!o.anyViable) return -1;
+  return Math.max(...o.rows.map(r=>r.spare===null?-1:r.spare)); }
 
 function card(t){
-  const done=getDone()[t.id];
-  const color=MASSIF_COLOR[t.massif]||'var(--ink)';
-  const o=options(t);
-  const stop=o?o.stop:resolveStop(t);
-  let mid='';
-  if(!o){
-    mid='<div class="cutnote">No Saturday schedule found for this stop — check M&nbsp;réso before travelling.</div>';
-  }else if(o.noDuration){
-    mid='<div class="cutnote">No walking duration published for this route, so feasibility cannot be computed.</div>';
-  }else{
-    const rows=o.rows.map(r=>{
-      if(r.ret===null) return '<div class="orow"><b>'+r.dep+'</b><span>'+r.arr+
-        '</span><span style="color:var(--bad)">back '+hhmm(r.back)+'</span><span class="spare bad">no return</span></div>';
-      return '<div class="orow"><b>'+r.dep+'</b><span>'+r.arr+'</span><b>'+hhmm(r.ret)+
-        '</b><span class="spare '+spareClass(r.spare)+'">'+durTxt(r.spare)+' spare</span></div>';
+  const done = getDone()[t.id];
+  const isCut = t.status === 'cut_v1';
+  const color = MASSIF_COLOR[t.massif] || 'var(--ink)';
+  const ref = DATA.bus_refs[t.bus_ref] || {};
+  const o = isCut ? null : options(t, state.day);
+  let midBlock='';
+  if(isCut){
+    midBlock = `<div class="cutnote">Cut from v1 — ${t.reason||''}</div>`;
+  } else if(!o){
+    midBlock = `<div class="cutnote" style="color:var(--warn)">No confirmed ${state.day} service on ${ref.line||'this line'} — verify on carsisere.auvergnerhonealpes.fr</div>`;
+  } else {
+    const rows = o.rows.map(r => {
+      if(r.ret===null) return `<div class="orow"><b>${r.dep}</b><span>${r.arr}</span><span style="color:var(--bad)">back ${hhmm(r.back)}</span><span class="spare bad">no return</span></div>`;
+      return `<div class="orow"><b>${r.dep}</b><span>${r.arr}</span><b>${hhmm(r.ret)}</b><span class="spare ${spareClass(r.spare)}">${durTxt(r.spare)} spare</span></div>`;
     }).join('');
-    const offStop=stop?stop.stop:'—';
-    mid='<div class="opts"><div class="oh"><span>Leave Gre.</span><span>Get off<em>'+offStop+
-      '</em></span><span>Return from<em>'+offStop+'</em></span><span>Buffer</span></div>'+rows+'</div>';
+    const offStop = ref.stop || '—';
+    const backStop = t.end_bus_ref && DATA.bus_refs[t.end_bus_ref] ? DATA.bus_refs[t.end_bus_ref].stop : offStop;
+    midBlock = `<div class="opts"><div class="oh"><span>Leave Gre.</span><span>Get off<em>${offStop}</em></span><span>Return from<em>${backStop}</em></span><span>Buffer</span></div>${rows}</div>`;
   }
-
-  const appr = t.approach_km!=null
-    ? (t.approach_km<1 ? Math.round(t.approach_km*1000)+' m' : t.approach_km+' km')
-    : '?';
-  const apprMin = t.approach_min!=null ? ' · '+t.approach_min+' min walk' : '';
-  const apprBadge = t.approach_source==='routed_footpath'
-    ? '<span class="badge meas">📏 approach measured on paths</span>'
-    : (t.approach_source==='hand_estimated'
-        ? '<span class="badge est">≈ approach estimated</span>' : '');
-
-  const lines=(stop&&stop.lines&&stop.lines.length)?stop.lines.join('/'):(t.lines||[]).join('/');
-  const fare=stop&&stop.fare?'<span class="badge">'+stop.fare+'</span>':'';
-  const resa=stop&&stop.resa?'<span class="badge resa">Reservation'+
-    (stop.booking_url?' · <a href="'+stop.booking_url+'" target="_blank" rel="noopener">book</a>':'')+'</span>':'';
-
-  return '<article id="card-'+t.id+'" class="card '+(done?'done':'')+'" style="--massif:'+color+'">'+
-    '<div class="toprow"><div>'+
-      '<div class="massif-tag">'+t.massif+'</div>'+
-      '<div class="tname">'+t.name+'</div>'+
-    '</div><div class="lozenge">'+(lines||'—')+'</div></div>'+
-    (t.teaser?'<div class="teaser">'+t.teaser+'</div>':'')+
-    '<div class="stats">'+
-      '<div class="stat"><b>'+(t.distance_km??'?')+' km</b><span>distance</span></div>'+
-      '<div class="stat"><b>'+(t.d_plus_m??'?')+' m</b><span>D+</span></div>'+
-      '<div class="stat"><b>'+(t.duration_h!=null?fmtH(t.duration_h):'?')+'</b><span>walking</span></div>'+
-      '<div class="stat"><b>'+appr+'</b><span>stop→trail</span></div>'+
-      (t.difficulty?'<div class="stat"><b>'+t.difficulty+'</b><span>grade</span></div>':'')+
-    '</div>'+ mid +
-    '<div class="busline">From <b>'+(stop?stop.stop:'—')+'</b>'+
-      (stop&&stop.minutes_from_grenoble!=null?' · '+stop.minutes_from_grenoble+' min from Grenoble':'')+
-      apprMin+'</div>'+
-    (t.note?'<div class="busline">'+t.note+'</div>':'')+
-    '<div class="badges">'+
-      (t.rando_bus?'<span class="badge bus">🚌 Park “Rando Bus” route</span>':'')+
-      (t.verified?'<span class="badge verified">✓ hand-verified</span>':'')+
-      apprBadge + fare + resa +
-    '</div>'+
-    '<div class="actions">'+
-      (t.topo_url?'<a class="gpx" href="'+t.topo_url+'" target="_blank" rel="noopener">Topo &amp; GPX →</a>':'<span></span>')+
-      '<button class="donebtn '+(done?'on':'')+'" data-id="'+t.id+'">'+(done?'Done it':'Mark done')+'</button>'+
-    '</div></article>';
+  const resa = ref.resa === true;
+  return `<article id="card-${t.id}" class="card ${done?'done':''} ${isCut?'cut':''}" style="--massif:${color}">
+    <div class="toprow">
+      <div>
+        <div class="massif-tag">${t.massif}${t.stats_approx ? ' · stats to validate' : ''}</div>
+        <div class="tname">${t.name}</div>
+      </div>
+      <div class="lozenge">${(ref.line||'—')}${t.end_bus_ref ? '→'+(DATA.bus_refs[t.end_bus_ref].line) : ''}</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${t.distance_km} km</b><span>distance</span></div>
+      <div class="stat"><b>${t.d_plus_m} m</b><span>D+</span></div>
+      <div class="stat"><b>${fmtH(t.duration_h)}</b><span>duration</span></div>
+      <div class="stat"><b>${t.approach_km} km</b><span>stop→trail</span></div>
+      <div class="stat"><b>${t.difficulty}</b><span>grade</span></div>
+    </div>
+    ${midBlock}
+    <div class="busline">From <b>${ref.stop||'—'}</b>${t.end_bus_ref ? ` · return from <b>${DATA.bus_refs[t.end_bus_ref].stop}</b>` : ''}</div>
+    ${t.note ? `<div class="busline">${t.note}</div>` : ''}
+    <div class="badges">
+      <span class="badge">${ref.fare||'fare —'}</span>
+      ${resa ? `<span class="badge resa">Reservation ${ref.url?`· <a href="${ref.url}" target="_blank" rel="noopener">book</a>`:''}</span>` : ''}
+    </div>
+    <div class="actions">
+      <a class="gpx" href="${t.topo_url}" target="_blank" rel="noopener">Topo & GPX →</a>
+      <button class="donebtn ${done?'on':''}" data-id="${t.id}">${done?'Done it':'Mark done'}</button>
+    </div>
+  </article>`;
 }
 
 function render(){
-  if(!TRAILS) return;
-  const done=getDone();
-  const list=TRAILS.filter(t=>{
-    if(state.massif!=='all'&&t.massif!==state.massif) return false;
-    if(t.duration_h!=null&&t.duration_h>state.maxdur) return false;
-    if(t.approach_km!=null&&t.approach_km>state.maxappr) return false;
-    if(state.busonly&&!t.rando_bus) return false;
-    if(state.hidedone&&done[t.id]) return false;
-    if(state.feasonly&&bestSpare(t)<0) return false;
+  if(!DATA) return;
+  const g = document.getElementById('grid');
+  let list = DATA.trails.filter(t => {
+    if(t.status === 'cut_v1' && !state.showcut) return false;
+    if(state.massif !== 'all' && t.massif !== state.massif) return false;
+    if(t.duration_h > state.maxdur) return false;
+    if(state.feasonly && t.status !== 'cut_v1'){
+      if(bestSpare(t) < 0) return false;
+    }
     return true;
-  }).sort((a,b)=>bestSpare(b)-bestSpare(a));
-
-  document.getElementById('count').textContent =
-    list.length+' trail'+(list.length!==1?'s':'')+' · sorted by most breathing room before the last bus';
-  document.getElementById('grid').innerHTML =
-    list.length?list.map(card).join(''):'<div class="empty">No trails match — loosen a filter.</div>';
-  document.querySelectorAll('.donebtn').forEach(b=>b.addEventListener('click',()=>{
-    const d=getDone(); const id=b.dataset.id;
-    if(d[id]) delete d[id]; else d[id]=1;
+  });
+  list.sort((a,b) => bestSpare(b) - bestSpare(a));
+  g.innerHTML = list.length ? list.map(card).join('') : '<div class="empty">No trails match — loosen a filter.</div>';
+  g.querySelectorAll('.donebtn').forEach(b => b.addEventListener('click', () => {
+    const d = getDone(); d[b.dataset.id] = !d[b.dataset.id]; if(!d[b.dataset.id]) delete d[b.dataset.id];
     setDone(d); render();
   }));
-  updateMap(new Set(list.map(t=>t.id)));
+  updateMapVisibility(new Set(list.map(t=>t.id)));
 }
 
+/* ---------- MAP ---------- */
 function initMap(){
-  if(typeof L==='undefined'){document.getElementById('map').style.display='none';return;}
-  MAP=L.map('map',{scrollWheelZoom:false}).setView([45.17,5.72],10);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:17,
-    attribution:'© OpenStreetMap'}).addTo(MAP);
-  L.marker([45.1885,5.7245],{icon:L.divIcon({className:'',
-    html:'<div class="trailpin pin-grenoble"></div>',iconSize:[14,14],iconAnchor:[7,7]})})
+  if(typeof L === 'undefined'){ document.getElementById('map').style.display='none'; return; }
+  MAP = L.map('map',{scrollWheelZoom:false}).setView([45.17,5.72],10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:17, attribution:'© OpenStreetMap'
+  }).addTo(MAP);
+  // Grenoble marker
+  L.marker([45.1885,5.7245],{icon:L.divIcon({className:'',html:'<div class="trailpin pin-grenoble"></div>',iconSize:[14,14],iconAnchor:[7,7]})})
     .addTo(MAP).bindPopup('<div class="pp-name">Grenoble</div><div class="pp-meta">Départ · 250 m</div>');
+  // one marker per trail that has coords
   const bounds=[[45.1885,5.7245]];
-  TRAILS.forEach(t=>{
-    const stop=resolveStop(t);
-    const lat=(stop&&stop.lat)??t.lat, lng=(stop&&stop.lng)??t.lng;
-    if(lat==null) return;
-    bounds.push([lat,lng]);
-    const lines=(stop&&stop.lines&&stop.lines[0])||(t.lines&&t.lines[0])||'•';
-    const m=L.marker([lat,lng],{icon:L.divIcon({className:'',
-      html:'<div class="trailpin pin-'+t.massif.toLowerCase()+'">'+lines+'</div>',
-      iconSize:[24,24],iconAnchor:[12,12]})}).addTo(MAP);
-    m.bindPopup('<div class="pp-name">'+t.name+'</div>'+
-      '<div class="pp-meta">'+(t.distance_km??'?')+' km · '+(t.d_plus_m??'?')+' m D+'+
-      (stop?' · '+stop.stop:'')+'</div>'+
-      '<button class="pp-link" onclick="jumpTo(\''+t.id+'\')">See departures ↓</button>');
-    MARKERS[t.id]={marker:m,massif:t.massif};
+  DATA.trails.filter(t=>t.status!=='cut_v1').forEach(t=>{
+    const ref=DATA.bus_refs[t.bus_ref]; if(!ref||ref.lat==null) return;
+    bounds.push([ref.lat,ref.lng]);
+    const cls='pin-'+t.massif.toLowerCase();
+    const m=L.marker([ref.lat,ref.lng],{icon:L.divIcon({className:'',html:`<div class="trailpin ${cls}">${ref.line}</div>`,iconSize:[26,26],iconAnchor:[13,13]})}).addTo(MAP);
+    m.bindPopup(`<div class="pp-massif" style="color:${MASSIF_COLOR[t.massif]}">${t.massif}</div>
+      <div class="pp-name">${t.name}</div>
+      <div class="pp-meta">${ref.line} → ${ref.stop} · ${t.distance_km} km · ${t.d_plus_m} m D+</div>
+      <button class="pp-link" onclick="jumpTo('${t.id}')">See departures ↓</button>`);
+    MARKERS[t.id]={marker:m, massif:t.massif};
   });
   MAP.fitBounds(bounds,{padding:[30,30]});
 }
-function updateMap(visible){
-  if(!MAP) return;
+function updateMapVisibility(visibleIds){
   Object.entries(MARKERS).forEach(([id,o])=>{
-    if(visible.has(id)) o.marker.addTo(MAP); else MAP.removeLayer(o.marker);
+    const show = (state.massif==='all'||o.massif===state.massif) && visibleIds.has(id);
+    if(show){ o.marker.addTo(MAP); } else { MAP.removeLayer(o.marker); }
   });
 }
 window.jumpTo=function(id){
@@ -321,35 +296,14 @@ window.jumpTo=function(id){
   el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1400);
 };
 
-document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
-  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
-  c.classList.add('on'); state.massif=c.dataset.massif; render();
+document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+  document.querySelectorAll('.chip').forEach(x => x.classList.remove('on'));
+  c.classList.add('on'); state.massif = c.dataset.massif; render();
 }));
-document.getElementById('maxdur').addEventListener('change',e=>{state.maxdur=+e.target.value;render()});
-document.getElementById('maxappr').addEventListener('change',e=>{state.maxappr=+e.target.value;render()});
-document.getElementById('feasonly').addEventListener('change',e=>{state.feasonly=e.target.checked;render()});
-document.getElementById('busonly').addEventListener('change',e=>{state.busonly=e.target.checked;render()});
-document.getElementById('hidedone').addEventListener('change',e=>{state.hidedone=e.target.checked;render()});
-
-Promise.all([
-  fetch('trails_merged.json').then(r=>{if(!r.ok)throw new Error('trails_merged.json ('+r.status+')');return r.json()}),
-  fetch('schedules.json').then(r=>{if(!r.ok)throw new Error('schedules.json ('+r.status+')');return r.json()})
-]).then(([tr,sc])=>{
-  TRAILS=tr.trails; STOPS=sc.stops;
-  const m=tr.meta||{};
-  document.getElementById('validity').textContent =
-    'Saturday schedules · '+(sc.feed_calendar_span||'')+' · '+(m.counts?m.counts.total+' trails':'');
-  document.getElementById('foot').innerHTML =
-    'For each departure, the return shown is the earliest bus clearing your arrival + walk to the trail + hike + walk back + a 45-minute buffer. '+
-    'Approach distances marked <em>measured</em> are routed along real footpaths; those marked <em>estimated</em> are not. '+
-    'Trail data: © Parc naturel régional du Vercors (Licence Ouverte 2.0) and hand-verified routes. '+
-    'Bus times: Cars Région Isère open data + M réso fiches horaires. Routing © OpenStreetMap contributors. '+
-    'Always re-check times before travelling.';
-  initMap(); render();
-}).catch(e=>{
-  document.getElementById('grid').innerHTML =
-    '<div class="empty">Could not load data — '+e.message+'<br>Make sure trails_merged.json and schedules.json sit next to index.html.</div>';
-});
+document.getElementById('daytype').addEventListener('change', e => { state.day = e.target.value; render(); });
+document.getElementById('maxdur').addEventListener('change', e => { state.maxdur = +e.target.value; render(); });
+document.getElementById('feasonly').addEventListener('change', e => { state.feasonly = e.target.checked; render(); });
+document.getElementById('showcut').addEventListener('change', e => { state.showcut = e.target.checked; render(); });
 </script>
 </body>
 </html>
