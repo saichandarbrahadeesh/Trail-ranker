@@ -59,7 +59,6 @@ main{max-width:1080px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-tem
   letter-spacing:.08em;color:var(--massif)}
 .lozenge{flex-shrink:0;font-family:'Barlow Condensed';font-weight:700;font-size:1rem;background:var(--ink);
   color:#fff;border-radius:6px;padding:3px 10px;letter-spacing:.02em}
-.teaser{font-size:.86rem;color:var(--muted);margin-top:6px;font-style:italic}
 .stats{display:flex;gap:14px;margin:10px 0 4px;flex-wrap:wrap}
 .stat{font-size:.9rem}.stat b{font-family:'Barlow Condensed';font-size:1.05rem;font-weight:700}
 .stat span{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;display:block}
@@ -90,6 +89,12 @@ main{max-width:1080px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-tem
 .donebtn{font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;
   border:1.5px solid var(--line);background:none;border-radius:6px;padding:5px 12px;cursor:pointer;color:var(--muted)}
 .donebtn.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.info{font-size:.83rem;color:var(--ink);margin-top:8px;line-height:1.4}
+.info .lbl{display:inline-block;min-width:62px;font-family:'Barlow Condensed';font-weight:700;font-size:.74rem;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.info.book{background:#FBEEDD;border:1px solid #E8CBA4;border-radius:6px;padding:6px 8px;color:#6B4515}
+.info.book a{color:#8A5A1E;font-weight:600}
+.links{display:flex;gap:14px;flex-wrap:wrap}
 .cutnote{font-size:.82rem;color:var(--warn);font-weight:500;margin-top:8px}
 .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
 footer{max-width:1080px;margin:0 auto;padding:0 20px 30px;font-size:.78rem;color:var(--muted)}
@@ -109,7 +114,7 @@ footer a{color:var(--muted)}
 </header>
 
 <div id="map"></div>
-<div class="map-cap">Pins mark each trailhead bus stop, coloured by massif. Click a pin to jump to the trail. Grenoble is the orange dot.</div>
+<div class="map-cap">Pins mark each trailhead bus stop, coloured by massif. Click a pin to jump to that trail. Grenoble is the orange dot.</div>
 
 <div class="filters" id="filters">
   <label>Massif</label>
@@ -186,7 +191,7 @@ function options(t){
   const rows=out.map(o=>{
     const arrive=toMin(o.arr), back=arrive+walk+hike+walk, need=back+BUFFER_MIN;
     let pick=null; for(const r of retMin){ if(r.m>=need){pick=r;break} }
-    return {dep:o.dep,arr:o.arr,back,ret:pick?pick.m:null,spare:pick?pick.m-back:null};
+    return {dep:o.dep,arr:o.arr,line:o.line||'',back,ret:pick?pick.m:null,spare:pick?pick.m-back:null};
   });
   return {rows,anyViable:rows.some(r=>r.ret!==null),stop,walk,hike};
 }
@@ -205,55 +210,63 @@ function card(t){
   }else if(o.noDuration){
     mid='<div class="cutnote">No walking duration published for this route, so feasibility cannot be computed.</div>';
   }else{
-    const rows=o.rows.map(r=>{
-      if(r.ret===null) return '<div class="orow"><b>'+r.dep+'</b><span>'+r.arr+
-        '</span><span style="color:var(--bad)">back '+hhmm(r.back)+'</span><span class="spare bad">no return</span></div>';
-      return '<div class="orow"><b>'+r.dep+'</b><span>'+r.arr+'</span><b>'+hhmm(r.ret)+
+    const hidden=o.rows.filter(r=>r.ret===null).length;
+    const rows=o.rows.filter(r=>r.ret!==null).map(r=>{
+      const chg=r.line.includes('+')?'<br><small style="color:var(--warn);font-size:.72rem">1 change · '+r.line.replace('+',' → ')+'</small>':'';
+      return '<div class="orow"><b>'+r.dep+chg+'</b><span>'+r.arr+'</span><b>'+hhmm(r.ret)+
         '</b><span class="spare '+spareClass(r.spare)+'">'+durTxt(r.spare)+' spare</span></div>';
     }).join('');
     const offStop=stop?stop.stop:'—';
+    const note=hidden?'<div class="orow" style="grid-template-columns:1fr;color:var(--muted);font-size:.8rem">'+
+      hidden+' later departure'+(hidden>1?'s':'')+' not shown — not enough time to return.</div>':'';
     mid='<div class="opts"><div class="oh"><span>Leave Gre.</span><span>Get off<em>'+offStop+
-      '</em></span><span>Return from<em>'+offStop+'</em></span><span>Buffer</span></div>'+rows+'</div>';
+      '</em></span><span>Return from<em>'+offStop+'</em></span><span>Buffer</span></div>'+rows+note+'</div>';
   }
 
   const appr = t.approach_km!=null
     ? (t.approach_km<1 ? Math.round(t.approach_km*1000)+' m' : t.approach_km+' km')
     : '?';
-  const apprMin = t.approach_min!=null ? ' · '+t.approach_min+' min walk' : '';
-  const apprBadge = t.approach_source==='routed_footpath'
-    ? '<span class="badge meas">📏 approach measured on paths</span>'
-    : (t.approach_source==='hand_estimated'
-        ? '<span class="badge est">≈ approach estimated</span>' : '');
 
   const lines=(stop&&stop.lines&&stop.lines.length)?stop.lines.join('/'):(t.lines||[]).join('/');
-  const fare=stop&&stop.fare?'<span class="badge">'+stop.fare+'</span>':'';
-  const resa=stop&&stop.resa?'<span class="badge resa">Reservation'+
-    (stop.booking_url?' · <a href="'+stop.booking_url+'" target="_blank" rel="noopener">book</a>':'')+'</span>':'';
+  // COST — always its own line. Open-data (Cars Region) stops carry no fare,
+  // so state the standard rule instead of leaving it blank.
+  const fareTxt = stop&&stop.fare ? stop.fare
+    : 'Cars Région ticket, price by zone. Buy on board, by SMS (93222) or on the Oùra app.';
+  const fare='<div class="info"><span class="lbl">Ticket</span>'+fareTxt+'</div>';
+  // BOOKING — say plainly whether it is needed, and the rule for pass holders.
+  let resa='';
+  if(stop&&stop.booking){
+    const b=stop.booking;
+    resa='<div class="info book"><span class="lbl">Booking</span><b>'+b.summary+'.</b> '+b.rule+' '+b.who+
+      (b.url?' <a href="'+b.url+'" target="_blank" rel="noopener">Book a seat →</a>':'')+'</div>';
+  } else {
+    resa='<div class="info"><span class="lbl">Booking</span>Not needed — just board.</div>';
+  }
 
   return '<article id="card-'+t.id+'" class="card '+(done?'done':'')+'" style="--massif:'+color+'">'+
     '<div class="toprow"><div>'+
       '<div class="massif-tag">'+t.massif+'</div>'+
       '<div class="tname">'+t.name+'</div>'+
     '</div><div class="lozenge">'+(lines||'—')+'</div></div>'+
-    (t.teaser?'<div class="teaser">'+t.teaser+'</div>':'')+
+
     '<div class="stats">'+
       '<div class="stat"><b>'+(t.distance_km??'?')+' km</b><span>distance</span></div>'+
-      '<div class="stat"><b>'+(t.d_plus_m??'?')+' m</b><span>D+</span></div>'+
-      '<div class="stat"><b>'+(t.duration_h!=null?fmtH(t.duration_h):'?')+'</b><span>walking</span></div>'+
+      '<div class="stat"><b>'+(t.d_plus_m??'?')+' m</b><span>elevation gain</span></div>'+
+      '<div class="stat"><b>'+(t.duration_h!=null?fmtH(t.duration_h):'?')+'</b><span>duration</span></div>'+
       '<div class="stat"><b>'+appr+'</b><span>stop→trail</span></div>'+
       (t.difficulty?'<div class="stat"><b>'+t.difficulty+'</b><span>grade</span></div>':'')+
     '</div>'+ mid +
-    '<div class="busline">From <b>'+(stop?stop.stop:'—')+'</b>'+
-      (stop&&stop.minutes_from_grenoble!=null?' · '+stop.minutes_from_grenoble+' min from Grenoble':'')+
-      apprMin+'</div>'+
+    '<div class="busline">From <b>'+(stop?stop.stop:'—')+'</b></div>'+
     (t.note?'<div class="busline">'+t.note+'</div>':'')+
     '<div class="badges">'+
-      (t.rando_bus?'<span class="badge bus">🚌 Park “Rando Bus” route</span>':'')+
-      (t.verified?'<span class="badge verified">✓ hand-verified</span>':'')+
-      apprBadge + fare + resa +
-    '</div>'+
+      (t.rando_bus?'<span class="badge bus">Rando Bus</span>':'')+
+    '</div>'+ fare + resa +
     '<div class="actions">'+
-      (t.topo_url?'<a class="gpx" href="'+t.topo_url+'" target="_blank" rel="noopener">Topo &amp; GPX →</a>':'<span></span>')+
+      '<span class="links">'+
+        (t.gpx_url?'<a class="gpx" href="'+t.gpx_url+'" target="_blank" rel="noopener">GPX track ↓</a>':'')+
+        (t.pdf_url?'<a class="gpx" href="'+t.pdf_url+'" target="_blank" rel="noopener">Topo (PDF) →</a>':'')+
+        (!t.gpx_url&&!t.pdf_url&&t.topo_url?'<a class="gpx" href="'+t.topo_url+'" target="_blank" rel="noopener">Topo &amp; GPX →</a>':'')+
+      '</span>'+
       '<button class="donebtn '+(done?'on':'')+'" data-id="'+t.id+'">'+(done?'Done it':'Mark done')+'</button>'+
     '</div></article>';
 }
@@ -302,7 +315,7 @@ function initMap(){
       html:'<div class="trailpin pin-'+t.massif.toLowerCase()+'">'+lines+'</div>',
       iconSize:[24,24],iconAnchor:[12,12]})}).addTo(MAP);
     m.bindPopup('<div class="pp-name">'+t.name+'</div>'+
-      '<div class="pp-meta">'+(t.distance_km??'?')+' km · '+(t.d_plus_m??'?')+' m D+'+
+      '<div class="pp-meta">'+(t.distance_km??'?')+' km · '+(t.d_plus_m??'?')+' m elevation gain'+
       (stop?' · '+stop.stop:'')+'</div>'+
       '<button class="pp-link" onclick="jumpTo(\''+t.id+'\')">See departures ↓</button>');
     MARKERS[t.id]={marker:m,massif:t.massif};
@@ -339,12 +352,8 @@ Promise.all([
   const m=tr.meta||{};
   document.getElementById('validity').textContent =
     'Saturday schedules · '+(sc.feed_calendar_span||'')+' · '+(m.counts?m.counts.total+' trails':'');
-  document.getElementById('foot').innerHTML =
-    'For each departure, the return shown is the earliest bus clearing your arrival + walk to the trail + hike + walk back + a 45-minute buffer. '+
-    'Approach distances marked <em>measured</em> are routed along real footpaths; those marked <em>estimated</em> are not. '+
-    'Trail data: © Parc naturel régional du Vercors (Licence Ouverte 2.0) and hand-verified routes. '+
-    'Bus times: Cars Région Isère open data + M réso fiches horaires. Routing © OpenStreetMap contributors. '+
-    'Always re-check times before travelling.';
+  document.getElementById('foot').textContent =
+    'Return shown = earliest bus after your hike + walk + 45-min buffer. Times from official timetables; always re-check before travelling.';
   initMap(); render();
 }).catch(e=>{
   document.getElementById('grid').innerHTML =

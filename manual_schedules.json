@@ -1,0 +1,410 @@
+{
+  "_readme": "Manually maintained schedules for lines NOT published in open GTFS (M reso 'Destinations Nature' reservation lines). Source: official fiche horaire PDFs from reso-m.fr, read and verified by hand. Refresh when the validity period ends or a new fiche appears (~2-3x/year).",
+  "verified_date": "2026-09-09",
+  "validity": {
+    "N62": "from 2026-08-31 (fiche 'Horaires valables a partir du 31 aout 2026'); La Prairie stop unserved 2026-11-28 to 2027-03-29",
+    "N93": "2026-08-31 to 2026-12-18 (autumn fiche; winter schedule follows)"
+  },
+  "stops": {
+    "MANUAL_N62_colporte": {
+      "stop_id": "MANUAL_N62_colporte",
+      "stop": "Sarcenas, Col de Porte",
+      "lines": [
+        "N62"
+      ],
+      "lat": 45.2933,
+      "lng": 5.7686,
+      "minutes_from_grenoble": 34,
+      "connections": 0,
+      "fare": "M réso ticket. With a Destinations booking: 6 € return to Col de Porte (non-subscribers).",
+      "resa": true,
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:15",
+            "arr": "08:49",
+            "line": "N62"
+          },
+          {
+            "dep": "09:30",
+            "arr": "10:04",
+            "line": "N62"
+          },
+          {
+            "dep": "10:30",
+            "arr": "11:04",
+            "line": "N62"
+          },
+          {
+            "dep": "11:30",
+            "arr": "12:04",
+            "line": "N62"
+          },
+          {
+            "dep": "12:30",
+            "arr": "13:04",
+            "line": "N62"
+          },
+          {
+            "dep": "13:30",
+            "arr": "14:04",
+            "line": "N62"
+          },
+          {
+            "dep": "14:45",
+            "arr": "15:19",
+            "line": "N62"
+          },
+          {
+            "dep": "16:00",
+            "arr": "16:34",
+            "line": "N62"
+          },
+          {
+            "dep": "17:30",
+            "arr": "18:04",
+            "line": "N62"
+          }
+        ],
+        "returns": [
+          {
+            "dep": "09:00",
+            "arr": "09:31",
+            "line": "N62"
+          },
+          {
+            "dep": "10:15",
+            "arr": "10:46",
+            "line": "N62"
+          },
+          {
+            "dep": "11:31",
+            "arr": "12:02",
+            "line": "N62"
+          },
+          {
+            "dep": "12:46",
+            "arr": "13:18",
+            "line": "N62"
+          },
+          {
+            "dep": "14:01",
+            "arr": "14:33",
+            "line": "N62"
+          },
+          {
+            "dep": "15:01",
+            "arr": "15:33",
+            "line": "N62"
+          },
+          {
+            "dep": "16:01",
+            "arr": "16:33",
+            "line": "N62"
+          },
+          {
+            "dep": "17:01",
+            "arr": "17:33",
+            "line": "N62"
+          },
+          {
+            "dep": "18:15",
+            "arr": "18:46",
+            "line": "N62"
+          }
+        ]
+      },
+      "booking": {
+        "required": false,
+        "summary": "Booking recommended, not required",
+        "rule": "If the bus is full, booked seats board first.",
+        "who": "Book on reso-m.fr (Destinations N). Weekend runs are the bookable ones.",
+        "url": "https://www.reso-m.fr/destinations-n"
+      }
+    },
+    "MANUAL_N62_sappey": {
+      "stop_id": "MANUAL_N62_sappey",
+      "stop": "Le Sappey-en-Chartreuse, Place",
+      "lines": [
+        "N62"
+      ],
+      "lat": 45.2586,
+      "lng": 5.7639,
+      "minutes_from_grenoble": 25,
+      "connections": 0,
+      "fare": "M réso ticket.",
+      "resa": true,
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:15",
+            "arr": "08:40",
+            "line": "N62"
+          },
+          {
+            "dep": "09:30",
+            "arr": "09:55",
+            "line": "N62"
+          },
+          {
+            "dep": "10:30",
+            "arr": "10:55",
+            "line": "N62"
+          },
+          {
+            "dep": "11:30",
+            "arr": "11:55",
+            "line": "N62"
+          },
+          {
+            "dep": "12:30",
+            "arr": "12:55",
+            "line": "N62"
+          },
+          {
+            "dep": "13:30",
+            "arr": "13:55",
+            "line": "N62"
+          },
+          {
+            "dep": "14:45",
+            "arr": "15:10",
+            "line": "N62"
+          },
+          {
+            "dep": "16:00",
+            "arr": "16:25",
+            "line": "N62"
+          },
+          {
+            "dep": "17:30",
+            "arr": "17:55",
+            "line": "N62"
+          }
+        ],
+        "returns": [
+          {
+            "dep": "09:09",
+            "arr": "09:31",
+            "line": "N62"
+          },
+          {
+            "dep": "10:24",
+            "arr": "10:46",
+            "line": "N62"
+          },
+          {
+            "dep": "11:40",
+            "arr": "12:02",
+            "line": "N62"
+          },
+          {
+            "dep": "12:55",
+            "arr": "13:18",
+            "line": "N62"
+          },
+          {
+            "dep": "14:10",
+            "arr": "14:33",
+            "line": "N62"
+          },
+          {
+            "dep": "15:10",
+            "arr": "15:33",
+            "line": "N62"
+          },
+          {
+            "dep": "16:10",
+            "arr": "16:33",
+            "line": "N62"
+          },
+          {
+            "dep": "17:10",
+            "arr": "17:33",
+            "line": "N62"
+          },
+          {
+            "dep": "18:24",
+            "arr": "18:46",
+            "line": "N62"
+          }
+        ]
+      },
+      "booking": {
+        "required": false,
+        "summary": "Booking recommended, not required",
+        "rule": "If the bus is full, booked seats board first.",
+        "who": "Book on reso-m.fr (Destinations N). Weekend runs are the bookable ones.",
+        "url": "https://www.reso-m.fr/destinations-n"
+      }
+    },
+    "MANUAL_N93_1650": {
+      "stop_id": "MANUAL_N93_1650",
+      "stop": "Chamrousse 1650 Le Recoin",
+      "lines": [
+        "N93"
+      ],
+      "lat": 45.1189,
+      "lng": 5.8794,
+      "minutes_from_grenoble": 62,
+      "connections": 0,
+      "fare": "12 € return booked online · 10 € single, cash on board.",
+      "resa": true,
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:00",
+            "arr": "09:02",
+            "line": "N93"
+          },
+          {
+            "dep": "13:45",
+            "arr": "14:47",
+            "line": "N93"
+          },
+          {
+            "dep": "17:00",
+            "arr": "18:02",
+            "line": "N93"
+          }
+        ],
+        "returns": [
+          {
+            "dep": "10:05",
+            "arr": "11:09",
+            "line": "N93"
+          },
+          {
+            "dep": "15:35",
+            "arr": "16:39",
+            "line": "N93"
+          },
+          {
+            "dep": "18:45",
+            "arr": "19:55",
+            "line": "N93"
+          }
+        ]
+      },
+      "booking": {
+        "required": false,
+        "summary": "Booking recommended, not required",
+        "rule": "If the bus is full, booked seats board first.",
+        "who": "M réso pass holders: book from 72 h before. Others: up to 3 months before.",
+        "url": "https://www.bus-et-clic.com/mreso"
+      }
+    },
+    "MANUAL_N93_1750": {
+      "stop_id": "MANUAL_N93_1750",
+      "stop": "Chamrousse 1750 Roche Beranger",
+      "lines": [
+        "N93"
+      ],
+      "lat": 45.1156,
+      "lng": 5.885,
+      "minutes_from_grenoble": 71,
+      "connections": 0,
+      "fare": "12 € return booked online · 10 € single, cash on board.",
+      "resa": true,
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:00",
+            "arr": "09:11",
+            "line": "N93"
+          },
+          {
+            "dep": "13:45",
+            "arr": "14:56",
+            "line": "N93"
+          },
+          {
+            "dep": "17:00",
+            "arr": "18:11",
+            "line": "N93"
+          }
+        ],
+        "returns": [
+          {
+            "dep": "09:55",
+            "arr": "11:09",
+            "line": "N93"
+          },
+          {
+            "dep": "15:25",
+            "arr": "16:39",
+            "line": "N93"
+          },
+          {
+            "dep": "18:35",
+            "arr": "19:55",
+            "line": "N93"
+          }
+        ]
+      },
+      "booking": {
+        "required": false,
+        "summary": "Booking recommended, not required",
+        "rule": "If the bus is full, booked seats board first.",
+        "who": "M réso pass holders: book from 72 h before. Others: up to 3 months before.",
+        "url": "https://www.bus-et-clic.com/mreso"
+      }
+    },
+    "MANUAL_N93_seiglieres": {
+      "stop_id": "MANUAL_N93_seiglieres",
+      "stop": "Les Seiglieres",
+      "lines": [
+        "N93"
+      ],
+      "lat": 45.1361,
+      "lng": 5.8489,
+      "minutes_from_grenoble": 44,
+      "connections": 0,
+      "fare": "12 € return booked online · 10 € single, cash on board.",
+      "resa": true,
+      "saturday": {
+        "outbound": [
+          {
+            "dep": "08:00",
+            "arr": "08:44",
+            "line": "N93"
+          },
+          {
+            "dep": "13:45",
+            "arr": "14:29",
+            "line": "N93"
+          },
+          {
+            "dep": "17:00",
+            "arr": "17:44",
+            "line": "N93"
+          }
+        ],
+        "returns": [
+          {
+            "dep": "10:22",
+            "arr": "11:09",
+            "line": "N93"
+          },
+          {
+            "dep": "15:52",
+            "arr": "16:39",
+            "line": "N93"
+          },
+          {
+            "dep": "19:00",
+            "arr": "19:55",
+            "line": "N93"
+          }
+        ]
+      },
+      "booking": {
+        "required": false,
+        "summary": "Booking recommended, not required",
+        "rule": "If the bus is full, booked seats board first.",
+        "who": "M réso pass holders: book from 72 h before. Others: up to 3 months before.",
+        "url": "https://www.bus-et-clic.com/mreso"
+      }
+    }
+  }
+}
