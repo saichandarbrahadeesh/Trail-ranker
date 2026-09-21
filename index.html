@@ -89,6 +89,7 @@ main{max-width:1080px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-tem
 .donebtn{font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;
   border:1.5px solid var(--line);background:none;border-radius:6px;padding:5px 12px;cursor:pointer;color:var(--muted)}
 .donebtn.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.route{font-size:.86rem;color:var(--muted);margin-top:2px}
 .info{font-size:.83rem;color:var(--ink);margin-top:8px;line-height:1.4}
 .info .lbl{display:inline-block;min-width:62px;font-family:'Barlow Condensed';font-weight:700;font-size:.74rem;
   text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
@@ -247,6 +248,7 @@ function card(t){
     '<div class="toprow"><div>'+
       '<div class="massif-tag">'+t.massif+'</div>'+
       '<div class="tname">'+t.name+'</div>'+
+      (t.route_label?'<div class="route">'+t.route_label+'</div>':'')+
     '</div><div class="lozenge">'+(lines||'—')+'</div></div>'+
 
     '<div class="stats">'+
