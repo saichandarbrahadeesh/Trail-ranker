@@ -13,353 +13,529 @@
   --chartreuse:#4A7C59; --vercors:#2C5F8A; --belledonne:#5A5F6E;
   --ok:#4A7C59; --warn:#C97B2D; --bad:#B4453A;
   --card:#FFFFFF; --line:#E3E1D8;
+  --bus:#1B3A6B;      /* bus leg on maps */
+  --hike:#C25E00;     /* hike leg on maps */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Barlow',sans-serif;background:var(--paper);color:var(--ink);line-height:1.45;
   background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(30,42,43,.03) 40px),
                    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(30,42,43,.03) 40px);}
-header{padding:28px 20px 14px;max-width:1080px;margin:0 auto}
-h1{font-family:'Barlow Condensed';font-weight:700;font-size:clamp(2rem,5vw,3rem);letter-spacing:.01em;text-transform:uppercase}
-h1 .accent{color:var(--vercors)} h1 .place{color:var(--muted)}
-.tagline{font-family:'Barlow Condensed';font-weight:600;font-size:.8rem;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--chartreuse);margin-top:1px}
-.sub{color:var(--muted);font-size:.95rem;margin-top:4px;display:flex;align-items:center;gap:5px}
-.validity{display:inline-block;margin-top:10px;font-size:.8rem;background:var(--ink);color:var(--paper);
-  padding:4px 10px;border-radius:3px;font-family:'Barlow Condensed';letter-spacing:.04em}
-#map{max-width:1080px;margin:14px auto 0;height:320px;border:1px solid var(--line);border-radius:10px;z-index:0}
-.map-cap{max-width:1080px;margin:6px auto 0;padding:0 20px;font-size:.78rem;color:var(--muted)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ---------- BANNER ---------- */
+.banner{background:var(--ink);color:var(--paper);padding:30px 0 28px}
+.banner h1{font-family:'Barlow Condensed';font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+  font-size:clamp(1.6rem,4.4vw,2.6rem);line-height:1.05}
+.banner h1 .accent{color:#E8B33C}
+.banner p{margin-top:8px;font-size:clamp(1rem,2.4vw,1.2rem);max-width:46rem;color:#DCD9CF}
+.brandrow{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.brand{font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.95rem}
+.brand .amp{color:#E8B33C}
+.tagline{font-family:'Barlow Condensed';font-weight:600;font-size:.72rem;letter-spacing:.18em;
+  text-transform:uppercase;color:#9FB0A6}
+.trivia{margin-top:16px;display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 14px;font-size:.95rem;color:#EFEDE6}
+.trivia b{font-family:'Barlow Condensed';font-size:1.5rem;font-weight:700;color:#E8B33C;line-height:1}
+
+/* ---------- MAP ---------- */
+#map{max-width:1080px;margin:18px auto 0;height:300px;border:1px solid var(--line);border-radius:10px;z-index:0}
 .leaflet-container{font-family:'Barlow',sans-serif;background:var(--paper)}
-.trailpin{color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;
-  font-family:'Barlow Condensed';font-weight:700;font-size:.68rem;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.trailpin{color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed';font-weight:700;font-size:.62rem;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
 .pin-chartreuse{background:var(--chartreuse)} .pin-vercors{background:var(--vercors)} .pin-belledonne{background:var(--belledonne)}
 .pin-grenoble{background:var(--warn);width:14px;height:14px}
-.pp-name{font-family:'Barlow Condensed';font-weight:700;font-size:1.05rem;line-height:1.1}
-.pp-meta{font-size:.82rem;color:var(--muted);margin-top:3px}
-.pp-link{font-size:.82rem;color:var(--vercors);cursor:pointer;text-decoration:underline;margin-top:5px;
-  display:inline-block;background:none;border:none;padding:0;font-family:inherit}
-.filters{max-width:1080px;margin:16px auto 6px;padding:0 20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.filters label{font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.pp-name{font-family:'Barlow Condensed';font-weight:700;font-size:1rem;line-height:1.1}
+.pp-meta{font-size:.8rem;color:var(--muted);margin-top:3px}
+
+/* ---------- DATE PICKER ---------- */
+.ask{margin:26px auto 0;text-align:center}
+.ask h2{font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;letter-spacing:.02em;
+  font-size:clamp(1.4rem,3.4vw,2rem)}
+.ask p{color:var(--muted);font-size:.95rem;margin-top:4px}
+.cal{max-width:430px;margin:16px auto 0;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:14px 16px 18px}
+.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.calhead .mon{font-family:'Barlow Condensed';font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:.04em}
+.navbtn{border:1.5px solid var(--line);background:var(--card);border-radius:8px;width:34px;height:34px;
+  cursor:pointer;font-size:1.1rem;line-height:1;color:var(--ink)}
+.navbtn:disabled{opacity:.3;cursor:not-allowed}
+.navbtn:focus-visible{outline:2px solid var(--vercors);outline-offset:2px}
+.dow,.grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dow div{text-align:center;font-family:'Barlow Condensed';font-weight:600;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-bottom:6px}
+.day{aspect-ratio:1;border:none;background:none;border-radius:999px;cursor:pointer;font-family:'Barlow';
+  font-size:.95rem;color:var(--ink);display:flex;align-items:center;justify-content:center;transition:background .12s}
+.day:hover:not(:disabled){background:#ECEAE2}
+.day:disabled{color:#C7C4BA;cursor:not-allowed}
+.day.today{box-shadow:inset 0 0 0 1.5px var(--line)}
+.day.sel{background:var(--ink);color:var(--paper);font-weight:600}
+.day:focus-visible{outline:2px solid var(--vercors);outline-offset:1px}
+.calfoot{margin-top:12px;font-size:.82rem;color:var(--muted);text-align:center;min-height:1.2em}
+
+/* ---------- RESULTS ---------- */
+.resbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:26px 0 4px}
+.resbar .count{font-family:'Barlow Condensed';font-weight:700;font-size:1.25rem;text-transform:uppercase;letter-spacing:.02em}
+.resbar .when{color:var(--muted);font-size:.9rem}
+.changeday{border:1.5px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;cursor:pointer;
+  font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 2px}
+.filters label{font-family:'Barlow Condensed';font-weight:600;font-size:.82rem;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--muted)}
 .chip{border:1.5px solid var(--line);background:var(--card);border-radius:20px;padding:5px 14px;cursor:pointer;
-  font-family:'Barlow Condensed';font-weight:600;font-size:.9rem;letter-spacing:.03em;transition:all .15s}
+  font-family:'Barlow Condensed';font-weight:600;font-size:.88rem;letter-spacing:.03em}
 .chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 select{border:1.5px solid var(--line);border-radius:6px;padding:5px 8px;font-family:'Barlow',sans-serif;background:var(--card)}
-.check{display:flex;align-items:center;gap:5px;font-size:.88rem;cursor:pointer;user-select:none}
-.count{max-width:1080px;margin:8px auto 0;padding:0 20px;font-size:.85rem;color:var(--muted)}
-main{max-width:1080px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:16px}
-@media(max-width:560px){main{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;
-  border-top:4px solid var(--massif,var(--ink));transition:box-shadow .15s;scroll-margin-top:20px}
-.card:hover{box-shadow:0 3px 14px rgba(30,42,43,.09)}
-.card.flash{box-shadow:0 0 0 3px var(--massif)}
-.card.done{opacity:.72}
-.card.done .tname::after{content:" ✓";color:var(--ok)}
-.toprow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.tname{font-family:'Barlow Condensed';font-weight:700;font-size:1.3rem;line-height:1.1}
-.massif-tag{font-family:'Barlow Condensed';font-weight:600;font-size:.78rem;text-transform:uppercase;
+
+main{max-width:1080px;margin:0 auto;padding:12px 20px 60px;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(500px,1fr));gap:16px}
+@media(max-width:880px){main{grid-template-columns:1fr}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  border-top:4px solid var(--massif,var(--ink))}
+.chead{padding:14px 16px 10px;cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.massif-tag{font-family:'Barlow Condensed';font-weight:600;font-size:.74rem;text-transform:uppercase;
   letter-spacing:.08em;color:var(--massif)}
-.lozenge{flex-shrink:0;font-family:'Barlow Condensed';font-weight:700;font-size:1rem;background:var(--ink);
-  color:#fff;border-radius:6px;padding:3px 10px;letter-spacing:.02em}
-.stats{display:flex;gap:14px;margin:10px 0 4px;flex-wrap:wrap}
-.stat{font-size:.9rem}.stat b{font-family:'Barlow Condensed';font-size:1.05rem;font-weight:700}
-.stat span{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;display:block}
-.opts{margin:12px 0 4px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.opts .oh,.opts .orow{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;padding:6px 10px;align-items:center}
-.opts .oh{background:var(--paper);font-family:'Barlow Condensed';font-weight:600;font-size:.72rem;
-  text-transform:uppercase;letter-spacing:.05em;color:var(--muted);align-items:start}
-.opts .oh em{display:block;font-style:normal;font-family:'Barlow',sans-serif;font-weight:600;
-  font-size:.76rem;text-transform:none;letter-spacing:0;color:var(--ink);line-height:1.2;margin-top:1px}
-.opts .orow{border-top:1px solid var(--line);font-size:.9rem;font-variant-numeric:tabular-nums}
-.opts .orow b{font-family:'Barlow Condensed';font-weight:700}
-.spare{font-family:'Barlow Condensed';font-weight:700;font-size:.82rem;padding:2px 7px;border-radius:4px;text-align:center;white-space:nowrap}
-.spare.ok{background:#E4EFE7;color:var(--ok)} .spare.warn{background:#FBEEDD;color:var(--warn)} .spare.bad{background:#F3DDDB;color:var(--bad)}
-.busline{font-size:.85rem;color:var(--muted);margin-top:6px}
-.busline b{color:var(--ink)}
-.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.badge{font-family:'Barlow Condensed';font-weight:600;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;
-  border-radius:4px;padding:3px 8px;border:1px solid var(--line);color:var(--muted)}
-.badge.resa{background:#FBEEDD;border-color:#E8CBA4;color:#8A5A1E}
-.badge.bus{background:#E4EFE7;border-color:#A9C9B4;color:#2F6140}
-.badge.est{background:#FBEEDD;border-color:#E8CBA4;color:#8A5A1E}
-.badge.meas{background:#EEF3F7;border-color:#BBD0E0;color:#2C5F8A}
-.badge.verified{background:#EEF3F7;border-color:#BBD0E0;color:#2C5F8A}
-.badge a{color:inherit}
-.actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
-.gpx{font-size:.85rem;color:var(--vercors);text-decoration:none;font-weight:500}
-.gpx:hover{text-decoration:underline}
-.donebtn{font-family:'Barlow Condensed';font-weight:600;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;
-  border:1.5px solid var(--line);background:none;border-radius:6px;padding:5px 12px;cursor:pointer;color:var(--muted)}
-.donebtn.on{background:var(--ok);border-color:var(--ok);color:#fff}
-.route{font-size:.86rem;color:var(--muted);margin-top:2px}
-.info{font-size:.83rem;color:var(--ink);margin-top:8px;line-height:1.4}
-.info .lbl{display:inline-block;min-width:62px;font-family:'Barlow Condensed';font-weight:700;font-size:.74rem;
-  text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.info.book{background:#FBEEDD;border:1px solid #E8CBA4;border-radius:6px;padding:6px 8px;color:#6B4515}
-.info.book a{color:#8A5A1E;font-weight:600}
-.links{display:flex;gap:14px;flex-wrap:wrap}
-.cutnote{font-size:.82rem;color:var(--warn);font-weight:500;margin-top:8px}
+.tname{font-family:'Barlow Condensed';font-weight:700;font-size:1.25rem;line-height:1.12;margin-top:1px}
+.route{font-size:.84rem;color:var(--muted);margin-top:2px}
+.grade{flex-shrink:0;font-family:'Barlow Condensed';font-weight:700;font-size:.8rem;text-transform:uppercase;
+  letter-spacing:.04em;padding:4px 9px;border-radius:5px;white-space:nowrap}
+.g1{background:#E4EFE7;color:#2F6140} .g2{background:#E7EFF5;color:#24597F} .g3{background:#FBEEDD;color:#8A5A1E} .g4{background:#F3DDDB;color:#8C342B}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 12px}
+.fact b{font-family:'Barlow Condensed';font-size:1.02rem;font-weight:700;display:block;line-height:1.15}
+.fact span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.more{display:none;border-top:1px solid var(--line);padding:12px 16px 14px}
+.card.open .more{display:block}
+.sect{font-family:'Barlow Condensed';font-weight:700;font-size:.78rem;text-transform:uppercase;
+  letter-spacing:.09em;color:var(--muted);margin:2px 0 7px}
+.sect:not(:first-child){margin-top:15px}
+.busline{font-size:.88rem;margin-bottom:8px}
+.busline b{font-weight:600}
+.opts{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.orow{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;padding:6px 10px;font-size:.88rem;
+  font-variant-numeric:tabular-nums;align-items:center}
+.orow+.orow{border-top:1px solid var(--line)}
+.ohead{background:var(--paper);font-family:'Barlow Condensed';font-weight:600;font-size:.7rem;
+  text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.orow b{font-family:'Barlow Condensed';font-weight:700}
+.spare{font-family:'Barlow Condensed';font-weight:700;font-size:.78rem;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.spare.ok{background:#E4EFE7;color:var(--ok)} .spare.warn{background:#FBEEDD;color:var(--warn)}
+.chg{color:var(--warn);font-size:.72rem;display:block}
+.hidden-note{padding:6px 10px;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted)}
+.ticket{font-size:.86rem;margin-top:8px}
+.ticket .tag{font-family:'Barlow Condensed';font-weight:700;font-size:.74rem;text-transform:uppercase;
+  letter-spacing:.05em;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.free{background:#E4EFE7;color:#2F6140} .tag.book{background:#FBEEDD;color:#8A5A1E}
+.ticket a{color:var(--vercors)}
+.tmap{height:190px;border:1px solid var(--line);border-radius:8px;margin-top:4px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:16px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.nav-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.nav-links a{font-size:.85rem;color:var(--vercors);text-decoration:none;border:1.5px solid var(--line);
+  border-radius:8px;padding:6px 11px}
+.nav-links a:hover{border-color:var(--vercors)}
+.whatis{font-size:.78rem;color:var(--muted);margin-top:6px;line-height:1.5}
+.expand{font-family:'Barlow Condensed';font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--muted);padding:0 16px 12px;cursor:pointer}
 .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
-footer{max-width:1080px;margin:0 auto;padding:0 20px 30px;font-size:.78rem;color:var(--muted)}
-footer a{color:var(--muted)}
-.chip:focus-visible,.donebtn:focus-visible,select:focus-visible{outline:2px solid var(--vercors);outline-offset:2px}
+footer{max-width:1080px;margin:0 auto;padding:0 20px 34px;font-size:.76rem;color:var(--muted)}
+@media(max-width:560px){
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .orow{grid-template-columns:1fr 1fr 1fr;font-size:.82rem}
+  .orow .spare{grid-column:1/-1;justify-self:start}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header>
-  <h1>Bus <span class="accent">&amp;</span> Boots <span class="place">Grenoble</span></h1>
-  <div class="tagline">Rando Grenoble Sans Voiture</div>
-  <div class="sub">Day hikes from Grenoble — accessible by bus
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="3" fill="#fff" stroke="#2C5F8A" stroke-width="1.6"/><rect x="6" y="7" width="4.5" height="4" rx="1" fill="#2C5F8A"/><rect x="13.5" y="7" width="4.5" height="4" rx="1" fill="#2C5F8A"/><circle cx="8" cy="19" r="2" fill="#1E2A2B"/><circle cx="16" cy="19" r="2" fill="#1E2A2B"/></svg>
+
+<div class="banner">
+  <div class="wrap">
+    <div class="brandrow">
+      <span class="brand">Bus <span class="amp">&amp;</span> Boots Grenoble</span>
+      <span class="tagline">Rando Grenoble Sans Voiture</span>
+    </div>
+    <h1>Love hiking but got <span class="accent">no car</span>?</h1>
+    <p>You will be surprised how many mountains you can still reach — the bus goes further than you think.</p>
+    <div class="trivia" id="trivia"></div>
   </div>
-  <div class="validity" id="validity"></div>
-</header>
-
-<div id="map"></div>
-<div class="map-cap">Pins mark each trailhead bus stop, coloured by massif. Click a pin to jump to that trail. Grenoble is the orange dot.</div>
-
-<div class="filters" id="filters">
-  <label>Massif</label>
-  <button class="chip on" data-massif="all">All</button>
-  <button class="chip" data-massif="Chartreuse">Chartreuse</button>
-  <button class="chip" data-massif="Vercors">Vercors</button>
-  <button class="chip" data-massif="Belledonne">Belledonne</button>
-  <label>Max walk</label>
-  <select id="maxdur">
-    <option value="99">Any</option><option value="3">≤ 3 h</option>
-    <option value="5">≤ 5 h</option><option value="7">≤ 7 h</option>
-  </select>
-  <label>From stop</label>
-  <select id="maxappr">
-    <option value="99">Any</option><option value="0.3">≤ 300 m</option>
-    <option value="1">≤ 1 km</option><option value="2">≤ 2 km</option>
-  </select>
-  <label class="check"><input type="checkbox" id="feasonly" checked> Doable on Saturday</label>
-  <label class="check"><input type="checkbox" id="busonly"> Park &ldquo;Rando Bus&rdquo; only</label>
-  <label class="check"><input type="checkbox" id="hidedone"> Hide done</label>
 </div>
 
-<div class="count" id="count"></div>
+<div id="map"></div>
+
+<div class="wrap">
+  <section class="ask" id="ask">
+    <h2>Which day are you planning your trek?</h2>
+    <p>Pick one day. We check every bus that gets you there and back.</p>
+    <div class="cal">
+      <div class="calhead">
+        <button class="navbtn" id="prevm" aria-label="Previous month">‹</button>
+        <span class="mon" id="monlabel"></span>
+        <button class="navbtn" id="nextm" aria-label="Next month">›</button>
+      </div>
+      <div class="dow"><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div></div>
+      <div class="grid7" id="days"></div>
+      <div class="calfoot" id="calfoot"></div>
+    </div>
+  </section>
+
+  <div id="results" hidden>
+    <div class="resbar">
+      <div>
+        <div class="count" id="count"></div>
+        <div class="when" id="when"></div>
+      </div>
+      <button class="changeday" id="changeday">Change day</button>
+    </div>
+    <div class="filters">
+      <label>Massif</label>
+      <button class="chip on" data-massif="all">All</button>
+      <button class="chip" data-massif="Chartreuse">Chartreuse</button>
+      <button class="chip" data-massif="Vercors">Vercors</button>
+      <button class="chip" data-massif="Belledonne">Belledonne</button>
+      <label>Grade</label>
+      <select id="fgrade">
+        <option value="0">Any</option><option value="1">Easy</option>
+        <option value="2">Up to Medium</option><option value="3">Up to Hard</option>
+      </select>
+      <label>Max walk</label>
+      <select id="fdur"><option value="99">Any</option><option value="3">≤ 3 h</option>
+        <option value="5">≤ 5 h</option><option value="7">≤ 7 h</option></select>
+    </div>
+  </div>
+</div>
+
 <main id="grid"></main>
 <footer id="foot"></footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
+/* ============ constants ============ */
 const MASSIF_COLOR={Chartreuse:'var(--chartreuse)',Vercors:'var(--vercors)',Belledonne:'var(--belledonne)'};
-const doneKey='busboots_done';
-const getDone=()=>{try{return JSON.parse(localStorage.getItem(doneKey))||{}}catch(e){return {}}};
-const setDone=d=>{try{localStorage.setItem(doneKey,JSON.stringify(d))}catch(e){}};
-
-let TRAILS=null, STOPS=null, MAP=null, MARKERS={};
-let state={massif:'all',maxdur:99,maxappr:99,feasonly:true,busonly:false,hidedone:false};
+const MASSIF_HEX={Chartreuse:'#4A7C59',Vercors:'#2C5F8A',Belledonne:'#5A5F6E'};
+const GRENOBLE=[45.1912,5.7245];
 const PACE=1.0, BUFFER_MIN=45;
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
+let TRAILS=null, STOPS=null, SERVICES=null, MAP=null, TMAPS={};
+let selected=null;                 // chosen Date
+let viewY, viewM;                  // calendar month on screen
+let state={massif:'all',maxGrade:0,maxdur:99};
+
+/* ============ helpers ============ */
 const toMin=s=>{const[h,m]=s.split(':').map(Number);return h*60+m};
-const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const hhmm=m=>String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
 const durTxt=m=>{m=Math.abs(Math.round(m));return Math.floor(m/60)+'h'+String(m%60).padStart(2,'0')};
-const fmtH=h=>{const hh=Math.floor(h),mm=Math.round((h-hh)*60);return mm?hh+'h'+String(mm).padStart(2,'0'):hh+'h'};
-const deAcc=s=>(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const fmtH=h=>{const a=Math.floor(h),b=Math.round((h-a)*60);return b?a+'h'+String(b).padStart(2,'0'):a+'h'};
+const deAcc=s=>(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const ymd=d=>d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+const esc=s=>String(s==null?'':s).replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
 
-/* Trails reference stops by several different ids depending on their source:
-   park trails use the GTFS stop_id; hand-verified trails use the old bus_ref
-   key ("N62_colporte") while schedules.json stores those as
-   "MANUAL_N62_colporte". Resolve by trying each, then by stop name. */
+/* Grade: park words (Facile/Moyen/Difficile) and SAC codes (T1..T4) -> plain English */
+function gradeInfo(raw){
+  const t=deAcc(raw);
+  if(!t) return {n:0,label:'—',cls:''};
+  if(/tres difficile|t[45]|t4/.test(t)) return {n:4,label:'Very hard',cls:'g4'};
+  if(/difficile|t3/.test(t))            return {n:3,label:'Hard',cls:'g3'};
+  if(/moyen|t2/.test(t))                return {n:2,label:'Medium',cls:'g2'};
+  if(/facile|t1/.test(t))               return {n:1,label:'Easy',cls:'g1'};
+  return {n:0,label:raw,cls:''};
+}
+
+/* Stop lookup: park trails use GTFS ids, hand-verified use the old bus_ref key. */
 function resolveStop(t){
   if(!STOPS) return null;
-  if(t.stop_id && STOPS[t.stop_id]) return STOPS[t.stop_id];
-  if(t.stop_id && STOPS['MANUAL_'+t.stop_id]) return STOPS['MANUAL_'+t.stop_id];
-  if(t.stop){
-    const want=deAcc(t.stop);
-    for(const k in STOPS){ if(deAcc(STOPS[k].stop)===want) return STOPS[k]; }
-    for(const k in STOPS){ const s=deAcc(STOPS[k].stop);
-      if(s.includes(want)||want.includes(s)) return STOPS[k]; }
-  }
+  if(t.stop_id&&STOPS[t.stop_id]) return STOPS[t.stop_id];
+  if(t.stop_id&&STOPS['MANUAL_'+t.stop_id]) return STOPS['MANUAL_'+t.stop_id];
+  if(t.stop){const w=deAcc(t.stop);
+    for(const k in STOPS) if(deAcc(STOPS[k].stop)===w) return STOPS[k];
+    for(const k in STOPS){const s=deAcc(STOPS[k].stop); if(s.includes(w)||w.includes(s)) return STOPS[k];}}
   return null;
 }
 
-/* For each Saturday departure, find the earliest return that clears
-   arrival + walk to trail + hike + walk back + safety buffer. */
-function options(t){
-  const stop=resolveStop(t);
-  if(!stop||!stop.saturday) return null;
-  const out=stop.saturday.outbound||[], rets=(stop.saturday.returns||[]).map(r=>
-    typeof r==='string'?{dep:r}:r);
-  if(!out.length||!rets.length) return null;
-  const walk = t.approach_min!=null ? t.approach_min
-             : (t.approach_km!=null ? Math.round(t.approach_km/4*60) : 0);
-  const hike = t.duration_h!=null ? Math.round(t.duration_h*60*PACE) : null;
-  if(hike==null) return {rows:[],anyViable:false,stop,noDuration:true};
-  const retMin=rets.map(r=>({m:toMin(r.dep),line:r.line})).sort((a,b)=>a.m-b.m);
-  const rows=out.map(o=>{
-    const arrive=toMin(o.arr), back=arrive+walk+hike+walk, need=back+BUFFER_MIN;
-    let pick=null; for(const r of retMin){ if(r.m>=need){pick=r;break} }
-    return {dep:o.dep,arr:o.arr,line:o.line||'',back,ret:pick?pick.m:null,spare:pick?pick.m-back:null};
-  });
-  return {rows,anyViable:rows.some(r=>r.ret!==null),stop,walk,hike};
+/* Does a GTFS service run on this date? mask index 0 = Sunday. */
+function serviceRuns(id,date){
+  if(!SERVICES) return true;                 // older data: no calendar, assume yes
+  const s=SERVICES[id]; if(!s) return false;
+  const d=ymd(date);
+  if(s.rem&&s.rem.includes(d)) return false;
+  if(s.add&&s.add.includes(d)) return true;
+  if(s.start&&d<s.start) return false;
+  if(s.end&&d>s.end) return false;
+  return s.mask&&s.mask[date.getDay()]==='1';
 }
-const spareClass=s=>s===null?'bad':s>=90?'ok':'warn';
-function bestSpare(t){const o=options(t);if(!o||!o.anyViable)return -1;
+function journeyRuns(j,date){
+  if(!j.svc) {                               // no service info: Saturday-only data
+    return date.getDay()===6;
+  }
+  const ids=[].concat(j.svc).flat();
+  return ids.every(id=>serviceRuns(id,date));
+}
+function dayJourneys(stop,date){
+  if(!stop) return null;
+  const src=stop.journeys||stop.saturday;    // new shape, else old
+  if(!src) return null;
+  const out=(src.outbound||[]).filter(j=>journeyRuns(j,date));
+  const ret=(src.returns||[]).map(r=>typeof r==='string'?{dep:r}:r).filter(j=>journeyRuns(j,date));
+  if(!out.length||!ret.length) return null;
+  return {out,ret};
+}
+
+/* Pair each departure with the earliest return you can still catch. */
+function options(t,date){
+  const stop=resolveStop(t); if(!stop) return null;
+  const j=dayJourneys(stop,date); if(!j) return {rows:[],any:false,stop,noService:true};
+  const walk=t.approach_min!=null?t.approach_min:(t.approach_km!=null?Math.round(t.approach_km/4*60):0);
+  if(t.duration_h==null) return {rows:[],any:false,stop,noDuration:true};
+  const hike=Math.round(t.duration_h*60*PACE);
+  const rets=j.ret.map(r=>({m:toMin(r.dep),line:r.line||''})).sort((a,b)=>a.m-b.m);
+  const rows=j.out.map(o=>{
+    const arr=toMin(o.arr), back=arr+walk+hike+walk, need=back+BUFFER_MIN;
+    let p=null; for(const r of rets){ if(r.m>=need){p=r;break;} }
+    return {dep:o.dep,arr:o.arr,line:o.line||'',back,ret:p?p.m:null,retLine:p?p.line:'',spare:p?p.m-back:null};
+  }).sort((a,b)=>toMin(a.dep)-toMin(b.dep));
+  return {rows,any:rows.some(r=>r.ret!==null),stop,walk,hike};
+}
+function bestSpare(t,date){const o=options(t,date);if(!o||!o.any)return -1;
   return Math.max(...o.rows.map(r=>r.spare===null?-1:r.spare));}
 
-function card(t){
-  const done=getDone()[t.id];
-  const color=MASSIF_COLOR[t.massif]||'var(--ink)';
-  const o=options(t);
-  const stop=o?o.stop:resolveStop(t);
-  let mid='';
-  if(!o){
-    mid='<div class="cutnote">No Saturday schedule found for this stop — check M&nbsp;réso before travelling.</div>';
-  }else if(o.noDuration){
-    mid='<div class="cutnote">No walking duration published for this route, so feasibility cannot be computed.</div>';
-  }else{
-    const hidden=o.rows.filter(r=>r.ret===null).length;
-    const rows=o.rows.filter(r=>r.ret!==null).map(r=>{
-      const chg=r.line.includes('+')?'<br><small style="color:var(--warn);font-size:.72rem">1 change · '+r.line.replace('+',' → ')+'</small>':'';
-      return '<div class="orow"><b>'+r.dep+chg+'</b><span>'+r.arr+'</span><b>'+hhmm(r.ret)+
-        '</b><span class="spare '+spareClass(r.spare)+'">'+durTxt(r.spare)+' spare</span></div>';
-    }).join('');
-    const offStop=stop?stop.stop:'—';
-    const note=hidden?'<div class="orow" style="grid-template-columns:1fr;color:var(--muted);font-size:.8rem">'+
-      hidden+' later departure'+(hidden>1?'s':'')+' not shown — not enough time to return.</div>':'';
-    mid='<div class="opts"><div class="oh"><span>Leave Gre.</span><span>Get off<em>'+offStop+
-      '</em></span><span>Return from<em>'+offStop+'</em></span><span>Buffer</span></div>'+rows+note+'</div>';
+/* ============ calendar ============ */
+function startOfToday(){const d=new Date();d.setHours(0,0,0,0);return d;}
+function buildCalendar(){
+  const today=startOfToday();
+  document.getElementById('monlabel').textContent=MONTHS[viewM]+' '+viewY;
+  const first=new Date(viewY,viewM,1);
+  const lead=(first.getDay()+6)%7;                 // Monday-first
+  const dim=new Date(viewY,viewM+1,0).getDate();
+  const g=document.getElementById('days'); g.innerHTML='';
+  for(let i=0;i<lead;i++) g.appendChild(document.createElement('span'));
+  for(let d=1;d<=dim;d++){
+    const date=new Date(viewY,viewM,d);
+    const b=document.createElement('button');
+    b.className='day'; b.textContent=d; b.type='button';
+    if(date<today) b.disabled=true;
+    if(+date===+today) b.classList.add('today');
+    if(selected&&+date===+selected) b.classList.add('sel');
+    b.addEventListener('click',()=>{selected=date;buildCalendar();showResults();});
+    g.appendChild(b);
   }
+  const prev=document.getElementById('prevm');
+  prev.disabled=(viewY<today.getFullYear())||(viewY===today.getFullYear()&&viewM<=today.getMonth());
+  document.getElementById('calfoot').textContent = selected
+    ? selected.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})
+    : '';
+}
+document.getElementById('prevm').addEventListener('click',()=>{
+  if(--viewM<0){viewM=11;viewY--;} buildCalendar();});
+document.getElementById('nextm').addEventListener('click',()=>{
+  if(++viewM>11){viewM=0;viewY++;} buildCalendar();});
+document.getElementById('changeday').addEventListener('click',()=>{
+  document.getElementById('ask').scrollIntoView({behavior:'smooth',block:'center'});});
 
-  const appr = t.approach_km!=null
-    ? (t.approach_km<1 ? Math.round(t.approach_km*1000)+' m' : t.approach_km+' km')
-    : '?';
-
-  const lines=(stop&&stop.lines&&stop.lines.length)?stop.lines.join('/'):(t.lines||[]).join('/');
-  // COST — always its own line. Open-data (Cars Region) stops carry no fare,
-  // so state the standard rule instead of leaving it blank.
-  const fareTxt = stop&&stop.fare ? stop.fare
-    : 'Cars Région ticket, price by zone. Buy on board, by SMS (93222) or on the Oùra app.';
-  const fare='<div class="info"><span class="lbl">Ticket</span>'+fareTxt+'</div>';
-  // BOOKING — say plainly whether it is needed, and the rule for pass holders.
-  let resa='';
-  if(stop&&stop.booking){
-    const b=stop.booking;
-    resa='<div class="info book"><span class="lbl">Booking</span><b>'+b.summary+'.</b> '+b.rule+' '+b.who+
+/* ============ cards ============ */
+function ticketLine(stop){
+  const b=stop&&stop.booking;
+  if(b&&b.summary){
+    return '<div class="ticket"><span class="tag book">Booking recommended</span>'+
+      esc(b.rule||'')+' '+esc(b.who||'')+
       (b.url?' <a href="'+b.url+'" target="_blank" rel="noopener">Book a seat →</a>':'')+'</div>';
-  } else {
-    resa='<div class="info"><span class="lbl">Booking</span>Not needed — just board.</div>';
+  }
+  if(stop&&stop.resa&&stop.booking_url){
+    return '<div class="ticket"><span class="tag book">Booking recommended</span>'+
+      '<a href="'+stop.booking_url+'" target="_blank" rel="noopener">Book a seat →</a></div>';
+  }
+  return '<div class="ticket"><span class="tag free">No booking needed</span>Just board. '+
+    esc(stop&&stop.fare?stop.fare:'Buy a ticket on board, by SMS (93222) or on the Oùra app.')+'</div>';
+}
+
+function card(t){
+  const o=options(t,selected);
+  const stop=o?o.stop:resolveStop(t);
+  const g=gradeInfo(t.difficulty);
+  const color=MASSIF_COLOR[t.massif]||'var(--ink)';
+  const appr=t.approach_km!=null?(t.approach_km<1?Math.round(t.approach_km*1000)+' m':t.approach_km+' km'):'—';
+
+  let bus='';
+  if(!o||o.noService){
+    bus='<div class="busline">No bus runs to this trail on the day you picked.</div>';
+  }else if(o.noDuration){
+    bus='<div class="busline">No walking time published, so we cannot check the return bus.</div>';
+  }else{
+    const good=o.rows.filter(r=>r.ret!==null);
+    const hidden=o.rows.length-good.length;
+    const rows=good.map(r=>{
+      const chg=r.line.includes('+')?'<span class="chg">1 change · '+esc(r.line.replace('+',' → '))+'</span>':'';
+      const cls=r.spare>=90?'ok':'warn';
+      return '<div class="orow"><b>'+r.dep+'</b>'+chg+'<span>'+r.arr+'</span><b>'+hhmm(r.ret)+'</b>'+
+             '<span class="spare '+cls+'">'+durTxt(r.spare)+' spare</span></div>';
+    }).join('');
+    bus='<div class="busline">From <b>Grenoble Gare Routière</b> to <b>'+esc(stop?stop.stop:'—')+'</b>'+
+        (stop&&stop.minutes_from_grenoble!=null?' · about '+stop.minutes_from_grenoble+' min':'')+'</div>'+
+        '<div class="opts"><div class="orow ohead"><span>Leave</span><span>Arrive</span><span>Return</span>'+
+        '<span>Buffer</span></div>'+rows+
+        (hidden?'<div class="hidden-note">'+hidden+' later departure'+(hidden>1?'s':'')+
+          ' not shown — not enough time to get back.</div>':'')+'</div>'+
+        ticketLine(stop);
   }
 
-  return '<article id="card-'+t.id+'" class="card '+(done?'done':'')+'" style="--massif:'+color+'">'+
-    '<div class="toprow"><div>'+
-      '<div class="massif-tag">'+t.massif+'</div>'+
-      '<div class="tname">'+t.name+'</div>'+
-      (t.route_label?'<div class="route">'+t.route_label+'</div>':'')+
-    '</div><div class="lozenge">'+(lines||'—')+'</div></div>'+
+  const links=
+    (t.gpx_url?'<a href="'+t.gpx_url+'" target="_blank" rel="noopener">GPX file ↓</a>':'')+
+    (t.topo_url?'<a href="'+t.topo_url+'" target="_blank" rel="noopener">Full details &amp; map →</a>':'')+
+    (t.pdf_url?'<a href="'+t.pdf_url+'" target="_blank" rel="noopener">Printable sheet (PDF) →</a>':'');
 
-    '<div class="stats">'+
-      '<div class="stat"><b>'+(t.distance_km??'?')+' km</b><span>distance</span></div>'+
-      '<div class="stat"><b>'+(t.d_plus_m??'?')+' m</b><span>elevation gain</span></div>'+
-      '<div class="stat"><b>'+(t.duration_h!=null?fmtH(t.duration_h):'?')+'</b><span>duration</span></div>'+
-      '<div class="stat"><b>'+appr+'</b><span>stop→trail</span></div>'+
-      (t.difficulty?'<div class="stat"><b>'+t.difficulty+'</b><span>grade</span></div>':'')+
-    '</div>'+ mid +
-    '<div class="busline">From <b>'+(stop?stop.stop:'—')+'</b></div>'+
-    (t.note?'<div class="busline">'+t.note+'</div>':'')+
-    '<div class="badges">'+
-      (t.rando_bus?'<span class="badge bus">Rando Bus</span>':'')+
-    '</div>'+ fare + resa +
-    '<div class="actions">'+
-      '<span class="links">'+
-        (t.gpx_url?'<a class="gpx" href="'+t.gpx_url+'" target="_blank" rel="noopener">GPX track ↓</a>':'')+
-        (t.pdf_url?'<a class="gpx" href="'+t.pdf_url+'" target="_blank" rel="noopener">Topo (PDF) →</a>':'')+
-        (!t.gpx_url&&!t.pdf_url&&t.topo_url?'<a class="gpx" href="'+t.topo_url+'" target="_blank" rel="noopener">Topo &amp; GPX →</a>':'')+
-      '</span>'+
-      '<button class="donebtn '+(done?'on':'')+'" data-id="'+t.id+'">'+(done?'Done it':'Mark done')+'</button>'+
+  return '<article class="card" id="card-'+t.id+'" style="--massif:'+color+'">'+
+    '<div class="chead" data-toggle="'+t.id+'">'+
+      '<div><div class="massif-tag">'+esc(t.massif)+'</div>'+
+      '<div class="tname">'+esc(t.name)+'</div>'+
+      (t.route_label?'<div class="route">'+esc(t.route_label)+'</div>':'')+'</div>'+
+      '<div class="grade '+g.cls+'">'+g.label+'</div>'+
+    '</div>'+
+    '<div class="facts">'+
+      '<div class="fact"><b>'+(t.distance_km??'?')+' km</b><span>distance</span></div>'+
+      '<div class="fact"><b>'+(t.d_plus_m??'?')+' m</b><span>elevation gain</span></div>'+
+      '<div class="fact"><b>'+(t.duration_h!=null?fmtH(t.duration_h):'?')+'</b><span>walking time</span></div>'+
+      '<div class="fact"><b>'+appr+'</b><span>stop → trail</span></div>'+
+    '</div>'+
+    '<div class="expand" data-toggle="'+t.id+'">Bus times, ticket &amp; map ▾</div>'+
+    '<div class="more">'+
+      '<div class="sect">Getting there</div>'+bus+
+      '<div class="sect">Navigation</div>'+
+      '<div class="tmap" id="tmap-'+t.id+'"></div>'+
+      '<div class="legend"><span><i style="background:var(--bus)"></i>Bus</span>'+
+        '<span><i style="background:var(--hike)"></i>Hike</span></div>'+
+      (links?'<div class="nav-links">'+links+'</div>':'')+
+      '<div class="whatis"><b>GPX</b> is a file of the route you load into a phone app or watch, so the line '+
+      'shows on your screen while you walk. <b>Full details</b> opens the published page with photos, '+
+      'description and a printable sheet. Most people need only one.</div>'+
     '</div></article>';
 }
 
-function render(){
-  if(!TRAILS) return;
-  const done=getDone();
-  const list=TRAILS.filter(t=>{
-    if(state.massif!=='all'&&t.massif!==state.massif) return false;
-    if(t.duration_h!=null&&t.duration_h>state.maxdur) return false;
-    if(t.approach_km!=null&&t.approach_km>state.maxappr) return false;
-    if(state.busonly&&!t.rando_bus) return false;
-    if(state.hidedone&&done[t.id]) return false;
-    if(state.feasonly&&bestSpare(t)<0) return false;
-    return true;
-  }).sort((a,b)=>bestSpare(b)-bestSpare(a));
-
-  document.getElementById('count').textContent =
-    list.length+' trail'+(list.length!==1?'s':'')+' · sorted by most breathing room before the last bus';
-  document.getElementById('grid').innerHTML =
-    list.length?list.map(card).join(''):'<div class="empty">No trails match — loosen a filter.</div>';
-  document.querySelectorAll('.donebtn').forEach(b=>b.addEventListener('click',()=>{
-    const d=getDone(); const id=b.dataset.id;
-    if(d[id]) delete d[id]; else d[id]=1;
-    setDone(d); render();
-  }));
-  updateMap(new Set(list.map(t=>t.id)));
+/* small map per card: bus leg Grenoble -> stop, then the hike */
+function drawTrailMap(t){
+  if(typeof L==='undefined') return;
+  const el=document.getElementById('tmap-'+t.id);
+  if(!el||TMAPS[t.id]) return;
+  const stop=resolveStop(t);
+  const sLat=(stop&&stop.lat)??t.lat, sLng=(stop&&stop.lng)??t.lng;
+  if(sLat==null){el.style.display='none';return;}
+  const m=L.map(el,{scrollWheelZoom:false,attributionControl:false}).setView([sLat,sLng],12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:17}).addTo(m);
+  const busLine=L.polyline([GRENOBLE,[sLat,sLng]],
+    {color:getComputedStyle(document.documentElement).getPropertyValue('--bus').trim()||'#1B3A6B',
+     weight:5,opacity:.85,dashArray:'1 9',lineCap:'round'}).addTo(m);
+  L.marker(GRENOBLE,{icon:L.divIcon({className:'',html:'<div class="trailpin pin-grenoble"></div>',
+    iconSize:[14,14],iconAnchor:[7,7]})}).addTo(m).bindPopup('Grenoble Gare Routière');
+  L.marker([sLat,sLng],{icon:L.divIcon({className:'',
+    html:'<div class="trailpin pin-'+t.massif.toLowerCase()+'">🚏</div>',iconSize:[22,22],iconAnchor:[11,11]})})
+    .addTo(m).bindPopup(stop?stop.stop:'Trailhead');
+  let bounds=[GRENOBLE,[sLat,sLng]];
+  if(Array.isArray(t.geometry)&&t.geometry.length>1){
+    const pts=t.geometry.map(p=>[p[1],p[0]]);
+    L.polyline(pts,{color:getComputedStyle(document.documentElement).getPropertyValue('--hike').trim()||'#C25E00',
+      weight:4,opacity:.95}).addTo(m);
+    bounds=bounds.concat(pts);
+  }else if(t.lat!=null){
+    L.circleMarker([t.lat,t.lng],{radius:6,color:'#C25E00',fillColor:'#C25E00',fillOpacity:.9})
+      .addTo(m).bindPopup('Trail starts here');
+    bounds.push([t.lat,t.lng]);
+  }
+  m.fitBounds(bounds,{padding:[18,18]});
+  TMAPS[t.id]=m;
+  setTimeout(()=>m.invalidateSize(),60);
 }
 
+/* ============ results ============ */
+function showResults(){
+  document.getElementById('results').hidden=false;
+  render();
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function render(){
+  if(!TRAILS||!selected) return;
+  const list=TRAILS.filter(t=>{
+    if(state.massif!=='all'&&t.massif!==state.massif) return false;
+    if(state.maxGrade&&gradeInfo(t.difficulty).n>state.maxGrade) return false;
+    if(t.duration_h!=null&&t.duration_h>state.maxdur) return false;
+    return bestSpare(t,selected)>=0;
+  }).sort((a,b)=>bestSpare(b,selected)-bestSpare(a,selected));
+
+  document.getElementById('count').textContent=
+    list.length?list.length+' hike'+(list.length!==1?'s':'')+' you can do':'No hikes on this day';
+  document.getElementById('when').textContent=
+    selected.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  TMAPS={};
+  document.getElementById('grid').innerHTML=list.length?list.map(card).join('')
+    :'<div class="empty">No bus gets you there and back on this day. Try another date or another massif.</div>';
+  document.querySelectorAll('[data-toggle]').forEach(el=>el.addEventListener('click',()=>{
+    const id=el.getAttribute('data-toggle');
+    const c=document.getElementById('card-'+id);
+    c.classList.toggle('open');
+    if(c.classList.contains('open')) drawTrailMap(TRAILS.find(x=>x.id===id));
+  }));
+  updateMainMap(new Set(list.map(t=>t.id)));
+}
+
+/* ============ overview map ============ */
+let MARKERS={};
 function initMap(){
   if(typeof L==='undefined'){document.getElementById('map').style.display='none';return;}
   MAP=L.map('map',{scrollWheelZoom:false}).setView([45.17,5.72],10);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:17,
     attribution:'© OpenStreetMap'}).addTo(MAP);
-  L.marker([45.1885,5.7245],{icon:L.divIcon({className:'',
-    html:'<div class="trailpin pin-grenoble"></div>',iconSize:[14,14],iconAnchor:[7,7]})})
-    .addTo(MAP).bindPopup('<div class="pp-name">Grenoble</div><div class="pp-meta">Départ · 250 m</div>');
-  const bounds=[[45.1885,5.7245]];
+  L.marker(GRENOBLE,{icon:L.divIcon({className:'',html:'<div class="trailpin pin-grenoble"></div>',
+    iconSize:[14,14],iconAnchor:[7,7]})}).addTo(MAP).bindPopup('Grenoble');
+  const bounds=[GRENOBLE];
   TRAILS.forEach(t=>{
-    const stop=resolveStop(t);
-    const lat=(stop&&stop.lat)??t.lat, lng=(stop&&stop.lng)??t.lng;
-    if(lat==null) return;
-    bounds.push([lat,lng]);
-    const lines=(stop&&stop.lines&&stop.lines[0])||(t.lines&&t.lines[0])||'•';
-    const m=L.marker([lat,lng],{icon:L.divIcon({className:'',
-      html:'<div class="trailpin pin-'+t.massif.toLowerCase()+'">'+lines+'</div>',
-      iconSize:[24,24],iconAnchor:[12,12]})}).addTo(MAP);
-    m.bindPopup('<div class="pp-name">'+t.name+'</div>'+
-      '<div class="pp-meta">'+(t.distance_km??'?')+' km · '+(t.d_plus_m??'?')+' m elevation gain'+
-      (stop?' · '+stop.stop:'')+'</div>'+
-      '<button class="pp-link" onclick="jumpTo(\''+t.id+'\')">See departures ↓</button>');
-    MARKERS[t.id]={marker:m,massif:t.massif};
+    const s=resolveStop(t); const lat=(s&&s.lat)??t.lat, lng=(s&&s.lng)??t.lng;
+    if(lat==null) return; bounds.push([lat,lng]);
+    const line=(s&&s.lines&&s.lines[0])||'•';
+    const mk=L.marker([lat,lng],{icon:L.divIcon({className:'',
+      html:'<div class="trailpin pin-'+t.massif.toLowerCase()+'">'+esc(line)+'</div>',
+      iconSize:[22,22],iconAnchor:[11,11]})}).addTo(MAP);
+    mk.bindPopup('<div class="pp-name">'+esc(t.name)+'</div><div class="pp-meta">'+
+      (t.distance_km??'?')+' km · '+(t.d_plus_m??'?')+' m elevation gain</div>');
+    MARKERS[t.id]={marker:mk};
   });
-  MAP.fitBounds(bounds,{padding:[30,30]});
+  MAP.fitBounds(bounds,{padding:[28,28]});
 }
-function updateMap(visible){
+function updateMainMap(vis){
   if(!MAP) return;
   Object.entries(MARKERS).forEach(([id,o])=>{
-    if(visible.has(id)) o.marker.addTo(MAP); else MAP.removeLayer(o.marker);
+    if(vis.has(id)) o.marker.addTo(MAP); else MAP.removeLayer(o.marker);
   });
 }
-window.jumpTo=function(id){
-  const el=document.getElementById('card-'+id); if(!el) return;
-  el.scrollIntoView({behavior:'smooth',block:'center'});
-  el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1400);
-};
 
+/* ============ filters ============ */
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
   document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
-  c.classList.add('on'); state.massif=c.dataset.massif; render();
-}));
-document.getElementById('maxdur').addEventListener('change',e=>{state.maxdur=+e.target.value;render()});
-document.getElementById('maxappr').addEventListener('change',e=>{state.maxappr=+e.target.value;render()});
-document.getElementById('feasonly').addEventListener('change',e=>{state.feasonly=e.target.checked;render()});
-document.getElementById('busonly').addEventListener('change',e=>{state.busonly=e.target.checked;render()});
-document.getElementById('hidedone').addEventListener('change',e=>{state.hidedone=e.target.checked;render()});
+  c.classList.add('on'); state.massif=c.dataset.massif; render();}));
+document.getElementById('fgrade').addEventListener('change',e=>{state.maxGrade=+e.target.value;render()});
+document.getElementById('fdur').addEventListener('change',e=>{state.maxdur=+e.target.value;render()});
+
+/* ============ boot ============ */
+const t0=startOfToday(); viewY=t0.getFullYear(); viewM=t0.getMonth();
+buildCalendar();
 
 Promise.all([
   fetch('trails_merged.json').then(r=>{if(!r.ok)throw new Error('trails_merged.json ('+r.status+')');return r.json()}),
   fetch('schedules.json').then(r=>{if(!r.ok)throw new Error('schedules.json ('+r.status+')');return r.json()})
 ]).then(([tr,sc])=>{
-  TRAILS=tr.trails; STOPS=sc.stops;
-  const m=tr.meta||{};
-  document.getElementById('validity').textContent =
-    'Saturday schedules · '+(sc.feed_calendar_span||'')+' · '+(m.counts?m.counts.total+' trails':'');
-  document.getElementById('foot').textContent =
-    'Return shown = earliest bus after your hike + walk + 45-min buffer. Times from official timetables; always re-check before travelling.';
-  initMap(); render();
+  TRAILS=tr.trails; STOPS=sc.stops; SERVICES=sc.services||null;
+  document.getElementById('trivia').innerHTML=
+    'Guess how many different hikes you can reach without a car around Grenoble? <b>'+TRAILS.length+'</b>';
+  document.getElementById('foot').textContent=
+    'The return shown is the earliest bus after your hike, the walk each way and a 45-minute buffer. '+
+    'Trail data: Parc naturel régional du Vercors (Licence Ouverte 2.0) and hand-checked routes. '+
+    'Bus times: Cars Région Isère open data and M réso timetables. Maps © OpenStreetMap contributors. '+
+    'Always re-check times before you travel.';
+  initMap();
+  if(!SERVICES){
+    document.getElementById('calfoot').textContent=
+      'Only Saturday timetables are loaded — other days will show nothing yet.';
+  }
 }).catch(e=>{
-  document.getElementById('grid').innerHTML =
-    '<div class="empty">Could not load data — '+e.message+'<br>Make sure trails_merged.json and schedules.json sit next to index.html.</div>';
+  document.getElementById('grid').innerHTML='<div class="empty">Could not load data — '+esc(e.message)+
+    '<br>trails_merged.json and schedules.json must sit next to index.html.</div>';
+  document.getElementById('results').hidden=false;
 });
 </script>
 </body>

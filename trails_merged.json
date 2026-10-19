@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-21T19:52:12.888Z",
+    "generated": "2026-10-19T18:52:56.906Z",
     "sources": [
       "Parc naturel régional du Vercors (Geotrek) — Licence Ouverte 2.0",
       "Hand-verified from official fiches horaires + Visorando",
@@ -99,7 +99,7 @@
       "lines": [
         "T65"
       ],
-      "approach_km": 0.04,
+      "approach_km": 0.07,
       "approach_source": "routed_footpath",
       "rando_bus": false,
       "geometry_parts": 1,
@@ -225,7 +225,7 @@
       "lines": [
         "T60"
       ],
-      "approach_km": 0.22,
+      "approach_km": 0.15,
       "approach_source": "routed_footpath",
       "rando_bus": false,
       "geometry_parts": 1,
@@ -237,7 +237,7 @@
       "source": "Parc naturel régional du Vercors (Geotrek)",
       "licence": "Licence Ouverte 2.0",
       "verified": false,
-      "approach_min": 3
+      "approach_min": 2
     },
     {
       "id": "archeorando-les-chasseurs-de-la-prehistoire-29809",
